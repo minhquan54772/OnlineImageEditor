@@ -1,0 +1,22 @@
+<div class="file-upload-container" (click)="fileUpload.click()">
+  <span class="material-symbols-outlined file-upload-container__icon">
+    add_photo_alternate
+  </span>
+  <div class="file-upload-container__upload-file-text">
+    Upload your own image
+  </div>
+
+  <button mat-raised-button class="file-upload-container__button-upload">
+    Upload image
+  </button>
+
+  <input
+    #fileUpload
+    type="file"
+    name="file-upload"
+    id="file-upload"
+    accept="image/*"
+    (change)="onFileSelected($event)"
+  />
+  <!-- Upload file here -->
+</div>
