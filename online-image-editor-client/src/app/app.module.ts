@@ -12,12 +12,19 @@ import { MatButtonModule } from '@angular/material/button';
 import { FileUploadComponent } from './components/file-upload/file-upload.component';
 import { HeaderComponent } from './components/header/header.component';
 import { SideMenuComponent } from './components/side-menu/side-menu.component';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
-  declarations: [AppComponent, FileUploadComponent, HeaderComponent, SideMenuComponent],
+  declarations: [
+    AppComponent,
+    FileUploadComponent,
+    HeaderComponent,
+    SideMenuComponent,
+  ],
   imports: [
     BrowserModule,
     AppRoutingModule,
+    HttpClientModule,
     MatToolbarModule,
     MatIconModule,
     MatSidenavModule,

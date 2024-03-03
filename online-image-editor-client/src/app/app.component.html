@@ -2,9 +2,12 @@
 <main class="content-container">
   <app-side-menu class="side-menu"></app-side-menu>
   <div class="content">
-    <app-file-upload></app-file-upload>
-    <div class="image-container" *ngIf="false">
+    <ng-container *ngIf="!file">
+      <app-file-upload></app-file-upload>
+    </ng-container>
+    <div class="image-container" [ngClass]="{ hidden: !file }">
       <!-- Display image here -->
+      <canvas #imageContainer width="800" height="600"> </canvas>
     </div>
   </div>
 </main>
