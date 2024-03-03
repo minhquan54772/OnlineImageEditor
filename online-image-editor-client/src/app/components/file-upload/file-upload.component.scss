@@ -1,0 +1,25 @@
+.file-upload-container {
+  width: 400px;
+  height: 200px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  border: 2px #436ccb dashed;
+  row-gap: 16px;
+  border-radius: 16px;
+
+  &__icon {
+    font-size: 60px;
+    color: #436ccb !important;
+  }
+
+  &__button-upload {
+    color: #fff !important;
+    background: #436ccb !important;
+  }
+
+  #file-upload {
+    display: none;
+  }
+}

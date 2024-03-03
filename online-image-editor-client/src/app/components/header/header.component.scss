@@ -1,0 +1,46 @@
+.header {
+  height: 56px;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #1e1f22;
+
+  &__left-part {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    column-gap: 8px;
+  }
+
+  &__right-part {
+  }
+
+  &__logo {
+    width: 40px;
+    height: 40px;
+
+    &-container {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      overflow: hidden;
+    }
+
+    &-name {
+      color: #fff;
+    }
+  }
+
+  &__user-avatar {
+    width: 40px;
+    height: 40px;
+
+    &-container {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      overflow: hidden;
+    }
+  }
+}
