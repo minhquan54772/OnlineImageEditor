@@ -8,16 +8,51 @@
         class="header__logo"
       />
     </div>
-    <div class="header__logo-name">NAME</div>
+    <div class="header__logo-name">Photo Editor</div>
   </div>
   <div class="header__right-part">
-    <div class="header__user-avatar-container">
+    <div class="header_login-container" *ngIf="!isUserLoggedIn">
+      <button
+        mat-stroked-button
+        class="header__signup-button"
+        (click)="onSignup()"
+      >
+        Sign up
+      </button>
+      <button
+        mat-raised-button
+        class="header__login-button"
+        (click)="onLogin()"
+      >
+        Sign in
+      </button>
+    </div>
+    <div class="header__user-avatar-container" *ngIf="isUserLoggedIn">
       <img
         src="assets/images/generic-avatar.png"
         alt="AVATAR"
         srcset=""
         class="header__user-avatar"
+        [matMenuTriggerFor]="menu"
       />
+      <mat-menu #menu="matMenu">
+        <div class="menu-container">
+          <div class="menu-user-info">
+            <div class="menu-user-info__avatar-container">
+              <img
+                src="assets/images/generic-avatar.png"
+                class="menu-user-info__avatar"
+              />
+            </div>
+            <div class="menu-user-info__email">user email here</div>
+          </div>
+          <div class="divider"></div>
+          <div class="my-account" (click)="onNavToAccount()">My Accounts</div>
+          <div class="my-projects" (click)="onNavToProjects()">My Projects</div>
+          <div class="divider"></div>
+          <div class="sign-out" (click)="onSignOut()">Sign out</div>
+        </div>
+      </mat-menu>
     </div>
   </div>
 </mat-toolbar>

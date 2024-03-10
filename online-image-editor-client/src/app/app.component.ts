@@ -30,6 +30,9 @@ export class AppComponent implements OnInit {
 
   drawImage(image: any) {
     const canvasContext = this.imageContainer.nativeElement.getContext('2d');
+    this.imageContainer.nativeElement.width = image.width;
+    this.imageContainer.nativeElement.height = image.height;
+
     canvasContext?.moveTo(0, 0);
     canvasContext?.drawImage(image, image.width, image.height);
   }
