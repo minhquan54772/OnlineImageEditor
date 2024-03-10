@@ -2,6 +2,8 @@ import { Component, OnDestroy } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { HttpService } from '../../services/http.service';
 import { AppStateService } from '../../services/app-state.service';
+import { BaseResponse } from '../../payload/response/BaseResponse';
+import { SessionStorageService } from '../../services/session-storage.service';
 
 @Component({
   selector: 'app-file-upload',
@@ -14,7 +16,8 @@ export class FileUploadComponent implements OnDestroy {
 
   constructor(
     private httpService: HttpService,
-    private appStateService: AppStateService
+    private appStateService: AppStateService,
+    private sessionStorageService: SessionStorageService
   ) {}
 
   onFileSelected(event: any) {
@@ -29,8 +32,9 @@ export class FileUploadComponent implements OnDestroy {
     this.uploadSubscription = this.httpService
       .uploadFile(this.uploadFileUrl, null, formData)
       .subscribe({
-        next: () => {
-          this.appStateService.uploadCompleted(selectedFile);
+        next: (response: BaseResponse<string>) => {
+          this.sessionStorageService.setItem('currentFile', selectedFile.name);
+          this.appStateService.uploadCompleted(response.data);
         },
         error: (err) => {
           console.log(err);
