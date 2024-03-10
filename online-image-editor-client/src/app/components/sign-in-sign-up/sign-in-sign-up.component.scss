@@ -1,0 +1,110 @@
+.container {
+  padding: 32px;
+}
+
+.login-box {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  row-gap: 26px;
+  width: 100%;
+
+  &__title {
+    font-size: 32px;
+    color: #1e1e1e;
+  }
+
+  &__message {
+    font-size: 28px;
+    color: #1e1e1e;
+  }
+
+  &__to-sign-up {
+    color: #436ccb;
+
+    &-box {
+    }
+  }
+
+  &__form-container {
+    display: flex;
+    flex-direction: column;
+  }
+}
+
+.input-box {
+  width: 100%;
+  height: 64px;
+  transition: all 0.3s;
+  outline: none;
+  position: relative;
+
+  &__red-border {
+    border: 2px solid #f24a63 !important;
+  }
+
+  &__input {
+    border: none;
+    width: 100%;
+    height: 40px;
+    padding: 0px;
+    border: 1px solid #dadbdc;
+    box-sizing: border-box;
+    border-radius: 4px;
+    padding: 0px 10px;
+    outline: none;
+
+    &:focus,
+    &:focus-within {
+      border: 2px solid #436ccb;
+    }
+  }
+
+  &__password {
+    &-container {
+      display: flex;
+      justify-content: flex-start;
+      height: 40px;
+      width: 100%;
+    }
+
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+  }
+
+  &__show-password {
+    position: absolute;
+    right: 10px;
+    top: 10px;
+  }
+
+  &__validation {
+    min-height: 16px;
+    color: #f24a63;
+  }
+}
+
+.button {
+  color: #ffffff !important;
+  background: #436ccb !important;
+  width: 100%;
+}
+
+.remember-forget-box {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  column-gap: 8px;
+
+  &__remember-me-box {
+  }
+
+  &__forget-password-box {
+    color: #436ccb;
+  }
+}
+
+.hidden {
+  display: none;
+}

@@ -1,0 +1,118 @@
+<div class="container">
+  <div class="login-box">
+    <div class="login-box__title">Welcome back to Photo Editor!</div>
+    <div class="login-box__message">Please sign in</div>
+    <div class="login-box__to-sign-up-box">
+      <span>New to Photo Editor?</span>
+      <span class="login-box__to-sign-up" (click)="openSignUpBox()">
+        Create an account.
+      </span>
+    </div>
+    <form
+      class="login-box__form-container"
+      [formGroup]="signInFormGroup"
+      (ngSubmit)="onSignInClicked()"
+    >
+      <!-- input email -->
+      <div class="input-box">
+        <input
+          type="text"
+          name="usernameOrEmail"
+          id="usernameOrEmail"
+          class="input-box__input"
+          [ngClass]="{
+            'input-box__red-border': isFormControlInvalid(
+              signInFormGroup.controls.usernameOrEmail
+            )
+          }"
+          autocomplete="true"
+          placeholder="Please enter your email or username"
+          formControlName="usernameOrEmail"
+        />
+        <div
+          class="input-box__validation"
+          #emailValidation
+          *ngIf="isFormControlInvalid(signInFormGroup.controls.usernameOrEmail)"
+        >
+          <span
+            *ngIf="signInFormGroup.controls.usernameOrEmail.errors?.['required']"
+          >
+            Please enter your email or username
+          </span>
+          <span
+            *ngIf="signInFormGroup.controls.usernameOrEmail.errors?.['email']"
+          >
+            This email is not linked to any account.
+          </span>
+        </div>
+      </div>
+
+      <!-- input password -->
+      <div class="input-box input-box__password">
+        <div class="input-box__password-container">
+          <input
+            [type]="isShowPassword ? 'text' : 'password'"
+            name="password"
+            id="password"
+            class="input-box__input"
+            [ngClass]="{
+              'input-box__red-border': isFormControlInvalid(
+                signInFormGroup.controls.signInPassword
+              )
+            }"
+            autocomplete="true"
+            required="true"
+            placeholder="Password"
+            formControlName="signInPassword"
+          />
+          <span
+            class="material-symbols-outlined input-box__show-password"
+            (click)="isShowPassword = !isShowPassword"
+          >
+            {{ isShowPassword ? "visibility_off" : "visibility" }}
+          </span>
+        </div>
+        <div
+          class="input-box__validation"
+          #passwordValidation
+          *ngIf="isFormControlInvalid(signInFormGroup.controls.signInPassword)"
+        >
+          <span
+            *ngIf="signInFormGroup.controls.signInPassword.errors?.['required']"
+          >
+            You forgot to enter your password!
+          </span>
+
+          <span
+            *ngIf="signInFormGroup.controls.signInPassword.errors?.['password']"
+          >
+            You entered an incorrect password!
+          </span>
+        </div>
+      </div>
+      <div class="remember-forget-box">
+        <div class="remeber-forget-box__remember-me-box">
+          <mat-checkbox
+            formControlName="remember"
+            [checked]="signInFormGroup.value.remember"
+          >
+            Remember me!
+          </mat-checkbox>
+        </div>
+        <div class="remember-forget-box__forget-password-box">
+          Forget your password?
+        </div>
+      </div>
+      <div class="button-container">
+        <button
+          mat-raised-button
+          class="button"
+          [disabled]="!signInFormGroup.valid"
+          (click)="onSignInClicked()"
+        >
+          Sign in.
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
