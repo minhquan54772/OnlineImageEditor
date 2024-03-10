@@ -1,10 +1,10 @@
 package com.intern.imageEditor.controllers;
 
 import com.intern.imageEditor.models.User;
-import com.intern.imageEditor.payload.LoginRequest;
+import com.intern.imageEditor.payload.request.LoginRequest;
+import com.intern.imageEditor.payload.response.BaseReponse;
 import com.intern.imageEditor.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Optional;
@@ -19,24 +19,24 @@ public class AuthController {
 
 
     @PostMapping("/login")
-    public boolean authenticateUser(@RequestBody LoginRequest loginRequest) throws Exception {
-        Optional<User> userByEmail = userService.getUserByEmail(loginRequest.getEmail());
+    public BaseReponse authenticateUser(@RequestBody LoginRequest loginRequest) throws Exception {
+        Optional<User> userByEmail = userService.getUserByEmail(loginRequest.getUsernameOrEmail());
         if (userByEmail.isPresent()) {
             if (userByEmail.get().getPassword().equals(loginRequest.getPassword())) {
-                return true;
+                return new BaseReponse(true, true);
             } else {
-                throw new Exception("Incorrect password");
+                return new BaseReponse(false, false, "Incorrect password") ;
             }
         } else {
-            Optional<User> userByUsername = userService.getUserByUsername(loginRequest.getUsername());
+            Optional<User> userByUsername = userService.getUserByUsername(loginRequest.getUsernameOrEmail());
             if (userByUsername.isPresent()) {
                 if (userByUsername.get().getPassword().equals(loginRequest.getPassword())) {
-                    return true;
+                    return new BaseReponse(true, true);
                 } else {
-                    throw new Exception("Incorrect password");
+                    return new BaseReponse(false, false, "Incorrect password") ;
                 }
             } else {
-                throw new Exception("User not found");
+                return new BaseReponse(false, false, "User not found") ;
             }
         }
     }
