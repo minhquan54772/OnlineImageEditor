@@ -2,6 +2,8 @@ package com.intern.imageEditor;
 
 import com.intern.imageEditor.properties.StorageProperties;
 import com.intern.imageEditor.services.StorageService;
+import nu.pattern.OpenCV;
+import org.opencv.core.Core;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -17,6 +19,8 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 public class ImageEditorApplication {
 
 	public static void main(String[] args) {
+//		System.loadLibrary(Core.NATIVE_LIBRARY_NAME);\
+		OpenCV.loadLocally();
 		SpringApplication.run(ImageEditorApplication.class, args);
 	}
 
