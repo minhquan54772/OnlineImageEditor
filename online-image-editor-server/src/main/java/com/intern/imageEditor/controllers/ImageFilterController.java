@@ -14,7 +14,7 @@ import java.io.IOException;
 @RequestMapping("/filter")
 @CrossOrigin
 public class ImageFilterController {
-    private final  ImageFilterService imageFilterService;
+    private final ImageFilterService imageFilterService;
 
     @Autowired
     public ImageFilterController(ImageFilterService imageFilterService) {
@@ -28,9 +28,24 @@ public class ImageFilterController {
 
         switch (request.getFilterName()) {
             case "black-and-white":
-//                Apply filter
                 result = this.imageFilterService.applyBlackAndWhiteFilter(request.getFileName());
                 break;
+            case "sepia":
+                result = this.imageFilterService.applySepiaFilter(request.getFileName());
+                break;
+            case "pencil-sketch":
+                result = this.imageFilterService.applyPencilSketchFilter(request.getFileName());
+                break;
+            case "cold":
+//                result = this.imageFilterService.applyColdFilter(request.getFileName());
+//                break;
+            case "hdr":
+                result = this.imageFilterService.applyHDRFilter(request.getFileName());
+                break;
+            case "invert":
+                result = this.imageFilterService.applyInvertFilter(request.getFileName());
+                break;
+
 
             default:
                 return ResponseEntity.status(400).body(new BaseReponse<>(null, false, "Can not find filter name"));
