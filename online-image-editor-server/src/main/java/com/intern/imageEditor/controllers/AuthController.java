@@ -2,7 +2,7 @@ package com.intern.imageEditor.controllers;
 
 import com.intern.imageEditor.models.User;
 import com.intern.imageEditor.payload.request.LoginRequest;
-import com.intern.imageEditor.payload.response.BaseReponse;
+import com.intern.imageEditor.payload.response.BaseResponse;
 import com.intern.imageEditor.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -19,24 +19,24 @@ public class AuthController {
 
 
     @PostMapping("/login")
-    public BaseReponse authenticateUser(@RequestBody LoginRequest loginRequest) throws Exception {
+    public BaseResponse authenticateUser(@RequestBody LoginRequest loginRequest) throws Exception {
         Optional<User> userByEmail = userService.getUserByEmail(loginRequest.getUsernameOrEmail());
         if (userByEmail.isPresent()) {
             if (userByEmail.get().getPassword().equals(loginRequest.getPassword())) {
-                return new BaseReponse(true, true);
+                return new BaseResponse(true, true);
             } else {
-                return new BaseReponse(false, false, "Incorrect password") ;
+                return new BaseResponse(false, false, "Incorrect password") ;
             }
         } else {
             Optional<User> userByUsername = userService.getUserByUsername(loginRequest.getUsernameOrEmail());
             if (userByUsername.isPresent()) {
                 if (userByUsername.get().getPassword().equals(loginRequest.getPassword())) {
-                    return new BaseReponse(true, true);
+                    return new BaseResponse(true, true);
                 } else {
-                    return new BaseReponse(false, false, "Incorrect password") ;
+                    return new BaseResponse(false, false, "Incorrect password") ;
                 }
             } else {
-                return new BaseReponse(false, false, "User not found") ;
+                return new BaseResponse(false, false, "User not found") ;
             }
         }
     }

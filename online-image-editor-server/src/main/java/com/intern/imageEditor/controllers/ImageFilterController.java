@@ -1,14 +1,17 @@
 package com.intern.imageEditor.controllers;
 
 
+import com.intern.imageEditor.models.ImageFilter;
 import com.intern.imageEditor.payload.request.ApplyFilterRequest;
-import com.intern.imageEditor.payload.response.BaseReponse;
+import com.intern.imageEditor.payload.response.BaseResponse;
 import com.intern.imageEditor.services.ImageFilterService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 @RestController
 @RequestMapping("/filter")
@@ -23,7 +26,7 @@ public class ImageFilterController {
 
 
     @PostMapping("/apply")
-    public ResponseEntity<BaseReponse<String>> applyImageFilter(@RequestBody ApplyFilterRequest request) throws IOException {
+    public ResponseEntity<BaseResponse<String>> applyImageFilter(@RequestBody ApplyFilterRequest request) throws IOException {
         String result = "";
 
         switch (request.getFilterName()) {
@@ -48,9 +51,27 @@ public class ImageFilterController {
 
 
             default:
-                return ResponseEntity.status(400).body(new BaseReponse<>(null, false, "Can not find filter name"));
+                return ResponseEntity.status(400).body(new BaseResponse<>(null, false, "Can not find filter name"));
         }
 
-        return ResponseEntity.ok().body(new BaseReponse<String>(result, true));
+        return ResponseEntity.ok().body(new BaseResponse<String>(result, true));
     }
+
+    @GetMapping("/all")
+    public ResponseEntity<BaseResponse<List<ImageFilter>>> getAllFilters() {
+        List<ImageFilter> filterList = new ArrayList<>();
+
+        // Required Purchase filters
+        filterList.add(new ImageFilter("black-and-white", "B&W", true));
+        filterList.add(new ImageFilter("sepia", "Sepia", true));
+
+        // Not Required Purchase filters
+        filterList.add(new ImageFilter("pencil-sketch", "Pencil Sketch", false));
+        filterList.add(new ImageFilter("hdr", "HDR", false));
+        filterList.add(new ImageFilter("invert", "Invert", false));
+
+        return ResponseEntity.ok().body(new BaseResponse<>(filterList, true));
+    }
+
+
 }
