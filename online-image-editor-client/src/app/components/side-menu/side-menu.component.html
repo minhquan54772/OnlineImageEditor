@@ -21,29 +21,20 @@
   </div>
 
   <div class="left-menu__category-content">
-    <div class="category-item" (click)="applyFilter('black-and-white')">
-      <div class="category-item__icon">
-        <span class="material-symbols-outlined"> home </span>
+    <div
+      *ngFor="let filter of imageFilters"
+      class="category-item"
+      [matTooltip]="!isFileUploaded ? 'Please open an image before editing' : ''"
+      [matTooltipDisabled]="isFileUploaded"
+      (click)="applyFilter(filter.name)"
+    >
+      <div class="category-item__purchased-required" *ngIf="filter.purchaseRequired">
+        <img src="assets/images/vip-required.svg" alt="VIP" class="category-item__purchased-required__icon" />
       </div>
-      <div class="category-item__label">Black & White</div>
-    </div>
-    <div class="category-item">
-      <div class="category-item__icon">
-        <span class="material-symbols-outlined"> home </span>
+      <div class="category-item__filter-preview" [ngClass]="{ 'category-item__filter-preview__active': filter.active }">
+        <img class="category-item__preview" src="assets/images/filters/{{ filter.name }}.jpg" alt="{{ filter.name }}" />
       </div>
-      <div class="category-item__label">Effect 2</div>
-    </div>
-    <div class="category-item">
-      <div class="category-item__icon">
-        <span class="material-symbols-outlined"> home </span>
-      </div>
-      <div class="category-item__label">Effect 3</div>
-    </div>
-    <div class="category-item">
-      <div class="category-item__icon">
-        <span class="material-symbols-outlined"> home </span>
-      </div>
-      <div class="category-item__label">Effect 4</div>
+      <div class="category-item__label">{{ filter.displayName }}</div>
     </div>
   </div>
 </div>

@@ -1,22 +1,22 @@
 package com.intern.imageEditor.payload.response;
 
-public class BaseReponse<T> {
+public class BaseResponse<T> {
     private T data;
     private boolean success;
     private String message;
 
-    public BaseReponse(T data, boolean success, String message) {
+    public BaseResponse(T data, boolean success, String message) {
         this.data = data;
         this.success = success;
         this.message = message;
     }
 
-    public BaseReponse(T data, boolean success) {
+    public BaseResponse(T data, boolean success) {
         this.data = data;
         this.success = success;
     }
 
-    public BaseReponse() {
+    public BaseResponse() {
     }
 
     public T getData() {

@@ -18,15 +18,10 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatListModule } from '@angular/material/list';
 import { MatMenuModule } from '@angular/material/menu';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 @NgModule({
-  declarations: [
-    AppComponent,
-    FileUploadComponent,
-    HeaderComponent,
-    SideMenuComponent,
-    SignInSignUpComponent,
-  ],
+  declarations: [AppComponent, FileUploadComponent, HeaderComponent, SideMenuComponent, SignInSignUpComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,
@@ -40,6 +35,7 @@ import { MatMenuModule } from '@angular/material/menu';
     MatCheckboxModule,
     MatListModule,
     MatMenuModule,
+    MatTooltipModule,
   ],
   providers: [provideAnimationsAsync()],
   bootstrap: [AppComponent],

@@ -1,31 +1,14 @@
 <mat-toolbar class="header">
   <div class="header__left-part">
     <div class="header__logo-container">
-      <img
-        src="assets/images/generic-avatar.png"
-        alt="LOGO"
-        srcset=""
-        class="header__logo"
-      />
+      <img src="assets/images/generic-avatar.png" alt="LOGO" srcset="" class="header__logo" />
     </div>
     <div class="header__logo-name">Photo Editor</div>
   </div>
   <div class="header__right-part">
     <div class="header_login-container" *ngIf="!isUserLoggedIn">
-      <button
-        mat-stroked-button
-        class="header__signup-button"
-        (click)="onSignup()"
-      >
-        Sign up
-      </button>
-      <button
-        mat-raised-button
-        class="header__login-button"
-        (click)="onLogin()"
-      >
-        Sign in
-      </button>
+      <button mat-stroked-button class="header__signup-button" (click)="onSignup()">Sign up</button>
+      <button mat-raised-button class="header__login-button" (click)="onLogin()">Sign in</button>
     </div>
     <div class="header__user-avatar-container" *ngIf="isUserLoggedIn">
       <img
@@ -39,10 +22,7 @@
         <div class="menu-container">
           <div class="menu-user-info">
             <div class="menu-user-info__avatar-container">
-              <img
-                src="assets/images/generic-avatar.png"
-                class="menu-user-info__avatar"
-              />
+              <img src="assets/images/generic-avatar.png" class="menu-user-info__avatar" />
             </div>
             <div class="menu-user-info__email">user email here</div>
           </div>
