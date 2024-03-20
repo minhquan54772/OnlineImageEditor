@@ -2,12 +2,7 @@ import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { UserService } from '../../services/user.service';
 import { BaseResponse } from '../../payload/response/BaseResponse';
 import { MatDialogRef } from '@angular/material/dialog';
-import {
-  FormControl,
-  FormGroup,
-  FormsModule,
-  Validators,
-} from '@angular/forms';
+import { FormControl, FormGroup, FormsModule, Validators } from '@angular/forms';
 import { LocalStorageService } from '../../services/local-storage.service';
 import { SessionStorageService } from '../../services/session-storage.service';
 
@@ -20,7 +15,7 @@ export class SignInSignUpComponent implements OnInit {
   isShowPassword: boolean = false;
 
   signInFormGroup = new FormGroup({
-    usernameOrEmail: new FormControl('', {
+    email: new FormControl('', {
       validators: [Validators.required],
       updateOn: 'blur',
     }),
@@ -45,48 +40,36 @@ export class SignInSignUpComponent implements OnInit {
   ngOnInit(): void {}
 
   onSignInClicked() {
-    this.userService
-      .login(
-        this.signInFormGroup.value?.usernameOrEmail!,
-        this.signInFormGroup.value?.signInPassword!
-      )
-      .subscribe({
-        next: (response: BaseResponse<boolean>) => {
-          if (response.success) {
-            const signInData: SignInData = new SignInData();
-            signInData.usernameOrEmail =
-              this.signInFormGroup.value?.usernameOrEmail!;
-            signInData.remember = this.signInFormGroup.value?.remember!;
+    this.userService.login(this.signInFormGroup.value?.email!, this.signInFormGroup.value?.signInPassword!).subscribe({
+      next: (response: BaseResponse<boolean>) => {
+        if (response.success) {
+          const signInData: SignInData = new SignInData();
+          signInData.usernameOrEmail = this.signInFormGroup.value?.email!;
+          signInData.remember = this.signInFormGroup.value?.remember!;
 
-            if (signInData.remember) {
-              this.localStorageService.setItem(
-                'userData',
-                JSON.stringify(signInData)
-              );
-            } else {
-              this.sessionStorageService.setItem(
-                'userData',
-                JSON.stringify(signInData)
-              );
-            }
-
-            this.dialogRef.close(signInData);
+          if (signInData.remember) {
+            this.localStorageService.setItem('userData', JSON.stringify(signInData));
           } else {
-            switch (response.message) {
-              case 'User not found':
-                this.signInFormGroup.controls.usernameOrEmail.setErrors({
-                  email: response.message,
-                });
-                break;
-              case 'Incorrect password':
-                this.signInFormGroup.controls.signInPassword.setErrors({
-                  password: response.message,
-                });
-                break;
-            }
+            this.sessionStorageService.setItem('userData', JSON.stringify(signInData));
           }
-        },
-      });
+
+          this.dialogRef.close(signInData);
+        } else {
+          switch (response.message) {
+            case 'User not found':
+              this.signInFormGroup.controls.email.setErrors({
+                email: response.message,
+              });
+              break;
+            case 'Incorrect password':
+              this.signInFormGroup.controls.signInPassword.setErrors({
+                password: response.message,
+              });
+              break;
+          }
+        }
+      },
+    });
   }
 
   isFormControlInvalid(control: FormControl): boolean {

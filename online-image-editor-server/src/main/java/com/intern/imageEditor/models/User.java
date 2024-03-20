@@ -14,9 +14,6 @@ public class User {
     @Column(name = "id")
     private long id;
 
-    @Column(name = "username", unique = true, nullable = false)
-    private String username;
-
     @Column(name = "password", nullable = false)
     private String password;
     @Column(name = "email", nullable = false)
@@ -35,9 +32,8 @@ public class User {
     public User() {
     }
 
-    public User(long id, String username, String password, String email, String displayName, List<Project> projectList, List<Subscription> subscriptionList) {
+    public User(long id, String password, String email, String displayName, List<Project> projectList, List<Subscription> subscriptionList) {
         this.id = id;
-        this.username = username;
         this.password = password;
         this.email = email;
         this.displayName = displayName;
@@ -47,14 +43,6 @@ public class User {
 
     public long getId() {
         return id;
-    }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
     }
 
     public String getPassword() {
