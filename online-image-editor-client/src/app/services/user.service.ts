@@ -11,12 +11,9 @@ export class UserService {
 
   constructor(private httpService: HttpService) {}
 
-  login(
-    usernameOrEmail: string,
-    password: string
-  ): Observable<BaseResponse<boolean>> {
+  login(email: string, password: string): Observable<BaseResponse<boolean>> {
     const loginRequestBody = {
-      usernameOrEmail: usernameOrEmail,
+      email: email,
       password: password,
     };
     return this.httpService.post(this.API_LOGIN, null, loginRequestBody);

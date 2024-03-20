@@ -5,6 +5,8 @@ import com.intern.imageEditor.payload.request.LoginRequest;
 import com.intern.imageEditor.payload.response.BaseResponse;
 import com.intern.imageEditor.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatusCode;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Optional;
@@ -17,27 +19,18 @@ public class AuthController {
     private UserService userService;
 
 
-
     @PostMapping("/login")
-    public BaseResponse authenticateUser(@RequestBody LoginRequest loginRequest) throws Exception {
-        Optional<User> userByEmail = userService.getUserByEmail(loginRequest.getUsernameOrEmail());
+    public ResponseEntity authenticateUser(@RequestBody LoginRequest loginRequest) throws Exception {
+        Optional<User> userByEmail = userService.getUserByEmail(loginRequest.getEmail());
         if (userByEmail.isPresent()) {
             if (userByEmail.get().getPassword().equals(loginRequest.getPassword())) {
-                return new BaseResponse(true, true);
+                return ResponseEntity.ok().body(new BaseResponse(true, true));
             } else {
-                return new BaseResponse(false, false, "Incorrect password") ;
+                return ResponseEntity.status(HttpStatusCode.valueOf(401)).body(new BaseResponse(false, false, "Incorrect password"));
             }
         } else {
-            Optional<User> userByUsername = userService.getUserByUsername(loginRequest.getUsernameOrEmail());
-            if (userByUsername.isPresent()) {
-                if (userByUsername.get().getPassword().equals(loginRequest.getPassword())) {
-                    return new BaseResponse(true, true);
-                } else {
-                    return new BaseResponse(false, false, "Incorrect password") ;
-                }
-            } else {
-                return new BaseResponse(false, false, "User not found") ;
-            }
+            return ResponseEntity.status(HttpStatusCode.valueOf(404)).body(new BaseResponse(false, false, "User not found"));
         }
     }
+
 }
