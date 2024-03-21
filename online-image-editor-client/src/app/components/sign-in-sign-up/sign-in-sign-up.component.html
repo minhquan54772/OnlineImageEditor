@@ -1,12 +1,12 @@
 <div class="container">
-  <div class="login-box">
+  <div class="login-box" *ngIf="showLoginBox()">
     <div class="login-box__title">Welcome back to Photo Editor!</div>
     <div class="login-box__message">Please sign in</div>
     <div class="login-box__to-sign-up-box">
       <span>New to Photo Editor?</span>
       <span class="login-box__to-sign-up" (click)="openSignUpBox()"> Create an account. </span>
     </div>
-    <form class="login-box__form-container" [formGroup]="signInFormGroup" (ngSubmit)="onSignInClicked()">
+    <form class="login-box__form-container" [formGroup]="signInFormGroup">
       <!-- input email -->
       <div class="input-box">
         <input
@@ -78,6 +78,83 @@
       <div class="button-container">
         <button mat-raised-button class="button" [disabled]="!signInFormGroup.valid" (click)="onSignInClicked()">
           Sign in.
+        </button>
+      </div>
+    </form>
+  </div>
+
+  <div class="signup-box" *ngIf="showSignUpBox()">
+    <div class="signup-box__title">Sign up with Photo Editor for free</div>
+    <div class="signup-box__to-login-box" (click)="openSignInBox()">Already have an account? Sign in</div>
+    <form class="signup-box__form-container" [formGroup]="signUpFormGroup">
+      <!-- input email -->
+      <div class="input-box">
+        <input
+          type="text"
+          name="signup-email"
+          id="signup-email"
+          class="input-box__input"
+          [ngClass]="{
+            'input-box__red-border': isFormControlInvalid(signUpFormGroup.controls.signUpEmail)
+          }"
+          autocomplete="true"
+          placeholder="Please enter your email"
+          formControlName="signUpEmail"
+        />
+        <div
+          class="input-box__validation"
+          #emailValidation
+          *ngIf="isFormControlInvalid(signUpFormGroup.controls.signUpEmail)"
+        >
+          <span *ngIf="signUpFormGroup.controls.signUpEmail.errors?.['required']">
+            Please enter your email or username.
+          </span>
+          <span *ngIf="signUpFormGroup.controls.signUpEmail.errors?.['pattern']">
+            This doesn't look like a valid email.
+          </span>
+          <span *ngIf="signUpFormGroup.controls.signUpEmail.errors?.['email']">
+            This email is linked to an existed account already.
+          </span>
+        </div>
+      </div>
+
+      <!-- input password -->
+      <div class="input-box input-box__password">
+        <div class="input-box__password-container">
+          <input
+            [type]="isShowPassword ? 'text' : 'password'"
+            name="signup-password"
+            id="signup-password"
+            class="input-box__input"
+            [ngClass]="{
+              'input-box__red-border': isFormControlInvalid(signUpFormGroup.controls.signUpPassword)
+            }"
+            autocomplete="true"
+            required="true"
+            placeholder="Password"
+            formControlName="signUpPassword"
+          />
+          <span class="material-symbols-outlined input-box__show-password" (click)="isShowPassword = !isShowPassword">
+            {{ isShowPassword ? "visibility_off" : "visibility" }}
+          </span>
+        </div>
+        <div
+          class="input-box__validation"
+          #passwordValidation
+          *ngIf="isFormControlInvalid(signUpFormGroup.controls.signUpPassword)"
+        >
+          <span *ngIf="signUpFormGroup.controls.signUpPassword.errors?.['required']">
+            You forgot to enter your password!
+          </span>
+
+          <span *ngIf="signUpFormGroup.controls.signUpPassword.errors?.['minlength']">
+            Password must be at least 8 characters!
+          </span>
+        </div>
+      </div>
+      <div class="button-container">
+        <button mat-raised-button class="button" [disabled]="!signUpFormGroup.valid" (click)="onSignUpClicked()">
+          Sign up.
         </button>
       </div>
     </form>

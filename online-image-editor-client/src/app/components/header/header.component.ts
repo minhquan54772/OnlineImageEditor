@@ -1,15 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import {
-  MatDialog,
-  MatDialogConfig,
-  MatDialogRef,
-} from '@angular/material/dialog';
+import { MatDialog, MatDialogConfig, MatDialogRef } from '@angular/material/dialog';
 import { User } from '../../models/user.model';
-import {
-  SignInData,
-  SignInSignUpComponent,
-} from '../sign-in-sign-up/sign-in-sign-up.component';
+import { SignInData, SignInSignUpComponent } from '../sign-in-sign-up/sign-in-sign-up.component';
 import { LocalStorageService } from '../../services/local-storage.service';
+import { UserService } from '../../services/user.service';
+import { BaseResponse } from '../../payload/response/BaseResponse';
 
 @Component({
   selector: 'app-header',
@@ -21,39 +16,62 @@ export class HeaderComponent implements OnInit {
   user: User = new User();
 
   constructor(
-    private signInDialog: MatDialog,
-    private localStorageService: LocalStorageService
+    private dialog: MatDialog,
+    private localStorageService: LocalStorageService,
+    private userService: UserService
   ) {}
 
   ngOnInit(): void {
-    const user = this.localStorageService.getItem('userData');
-    if (user) {
-      this.isUserLoggedIn = true;
-      this.user = JSON.parse(user) as User;
+    const userData = this.localStorageService.getItem('userData');
+    if (userData) {
+      const user = JSON.parse(userData);
+      if (user) {
+        this.isUserLoggedIn = true;
+        this.getUserInfo(user.email);
+      }
     }
   }
 
   onLogin() {
     const config: MatDialogConfig = {
       hasBackdrop: true,
+      data: {
+        action: 'login',
+      },
     };
-    const dialogRef: MatDialogRef<SignInSignUpComponent> =
-      this.signInDialog.open(SignInSignUpComponent, config);
+    const dialogRef: MatDialogRef<SignInSignUpComponent> = this.dialog.open(SignInSignUpComponent, config);
 
     dialogRef.afterClosed().subscribe((data: SignInData) => {
       if (data) {
         this.isUserLoggedIn = true;
-        this.user.username = data.usernameOrEmail;
-        this.user.email = data.usernameOrEmail;
+        this.getUserInfo(data.email);
       }
     });
   }
 
   onSignup() {
-    // show popup signup
-    alert('In development');
+    const config: MatDialogConfig = {
+      hasBackdrop: true,
+      data: {
+        action: 'signup',
+      },
+    };
+    const dialogRef: MatDialogRef<SignInSignUpComponent> = this.dialog.open(SignInSignUpComponent, config);
   }
 
+  getUserInfo(email: string) {
+    this.userService.findUserByEmail(email).subscribe({
+      next: (response: BaseResponse<User>) => {
+        this.user = new User();
+
+        this.user.email = response.data.email;
+        this.user.displayName = response.data.displayName;
+      },
+      error: (error) => {
+        console.log(error);
+      },
+    });
+  }
   onNavToProjects() {
     throw new Error('Method not implemented.');
   }

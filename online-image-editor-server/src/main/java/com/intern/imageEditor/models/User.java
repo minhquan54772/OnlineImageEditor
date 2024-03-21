@@ -16,7 +16,7 @@ public class User {
 
     @Column(name = "password", nullable = false)
     private String password;
-    @Column(name = "email", nullable = false)
+    @Column(name = "email", nullable = false, unique = true)
     private String email;
     @Column(name = "displayName", nullable = true)
     private String displayName;
@@ -30,6 +30,11 @@ public class User {
     private List<Subscription> subscriptionList;
 
     public User() {
+    }
+
+    public User(String password, String email) {
+        this.password = password;
+        this.email = email;
     }
 
     public User(long id, String password, String email, String displayName, List<Project> projectList, List<Subscription> subscriptionList) {

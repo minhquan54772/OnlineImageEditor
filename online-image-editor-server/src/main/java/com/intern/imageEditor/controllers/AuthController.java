@@ -9,6 +9,8 @@ import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.nio.charset.StandardCharsets;
+import java.util.Base64;
 import java.util.Optional;
 
 @RestController
@@ -23,7 +25,8 @@ public class AuthController {
     public ResponseEntity authenticateUser(@RequestBody LoginRequest loginRequest) throws Exception {
         Optional<User> userByEmail = userService.getUserByEmail(loginRequest.getEmail());
         if (userByEmail.isPresent()) {
-            if (userByEmail.get().getPassword().equals(loginRequest.getPassword())) {
+            String encodedPassword = Base64.getEncoder().encodeToString(loginRequest.getPassword().getBytes(StandardCharsets.UTF_8));
+            if (userByEmail.get().getPassword().equals(encodedPassword)) {
                 return ResponseEntity.ok().body(new BaseResponse(true, true));
             } else {
                 return ResponseEntity.status(HttpStatusCode.valueOf(401)).body(new BaseResponse(false, false, "Incorrect password"));
