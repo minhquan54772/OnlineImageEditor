@@ -85,9 +85,32 @@
     }
   }
 
-  &__email {
-    color: #1e1e1e;
+  &__nickname-email-wrapper {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
     margin-left: 8px;
+  }
+
+  &__email {
+    color: #909090;
+  }
+  &__nickname {
+    color: #1e1e1e;
+  }
+}
+
+.my-account,
+.my-projects,
+.sign-out {
+  padding-bottom: 8px;
+  padding-top: 8px;
+  cursor: pointer;
+
+  &:hover {
+    color: #436ccb;
+    background: #f2f2f2;
   }
 }
 

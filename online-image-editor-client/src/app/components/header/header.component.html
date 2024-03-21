@@ -24,7 +24,10 @@
             <div class="menu-user-info__avatar-container">
               <img src="assets/images/generic-avatar.png" class="menu-user-info__avatar" />
             </div>
-            <div class="menu-user-info__email">user email here</div>
+            <div class="menu-user-info__nickname-email-wrapper">
+              <div class="menu-user-info__nickname">{{ user.displayName }}</div>
+              <div class="menu-user-info__email">{{ user.email }}</div>
+            </div>
           </div>
           <div class="divider"></div>
           <div class="my-account" (click)="onNavToAccount()">My Accounts</div>
