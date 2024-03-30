@@ -22,6 +22,7 @@ export class FileUploadComponent implements OnDestroy {
 
   onFileSelected(event: any) {
     const selectedFile: File = event.target?.files[0];
+
     if (!selectedFile) {
       return;
     }
@@ -29,17 +30,15 @@ export class FileUploadComponent implements OnDestroy {
     const formData = new FormData();
     formData.append('file', selectedFile);
 
-    this.uploadSubscription = this.httpService
-      .uploadFile(this.uploadFileUrl, null, formData)
-      .subscribe({
-        next: (response: BaseResponse<string>) => {
-          this.sessionStorageService.setItem('currentFile', selectedFile.name);
-          this.appStateService.uploadCompleted(response.data);
-        },
-        error: (err) => {
-          console.log(err);
-        },
-      });
+    this.uploadSubscription = this.httpService.uploadFile(this.uploadFileUrl, null, formData).subscribe({
+      next: (response: BaseResponse<string>) => {
+        this.sessionStorageService.setItem('currentFile', selectedFile.name);
+        this.appStateService.uploadCompleted(response.data);
+      },
+      error: (err) => {
+        console.log(err);
+      },
+    });
   }
 
   ngOnDestroy(): void {

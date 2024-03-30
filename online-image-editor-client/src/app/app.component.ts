@@ -10,6 +10,8 @@ export class AppComponent implements OnInit {
   file!: File;
 
   isFileUploaded: boolean = false;
+  imageSize: string = '';
+  zoomRatio: number = 0;
 
   @ViewChild('imageContainer') imageContainer!: ElementRef;
 
@@ -44,10 +46,36 @@ export class AppComponent implements OnInit {
 
   drawImage(imageData: string) {
     this.imageContainer.nativeElement.src = imageData;
+    const image = new Image();
+    image.src = imageData;
+
+    image.onload = () => {
+      console.log(this.imageContainer);
+
+      this.imageSize = image.width + 'x' + image.height;
+      this.zoomRatio = this.calculateZoomRatio(
+        this.imageContainer.nativeElement.width,
+        this.imageContainer.nativeElement.height,
+        image.width,
+        image.height
+      );
+    };
+
     // const canvasContext = this.imageContainer.nativeElement.getContext('2d');
     // this.imageContainer.nativeElement.width = image.width;
     // this.imageContainer.nativeElement.height = image.height;
     // canvasContext?.moveTo(0, 0);
     // canvasContext?.drawImage(image, image.width, image.height);
+  }
+
+  calculateZoomRatio(originalWidth: number, originalHeight: number, actualWidth: number, actualHeight: number): number {
+    const originalDiagonal = this.calculateDiagonal(originalWidth, originalHeight);
+    const actualDiagonal = this.calculateDiagonal(actualWidth, actualHeight);
+
+    return Math.floor((originalDiagonal / actualDiagonal) * 100);
+  }
+
+  calculateDiagonal(width: number, height: number): number {
+    return Math.sqrt(width * width + height * height);
   }
 }
