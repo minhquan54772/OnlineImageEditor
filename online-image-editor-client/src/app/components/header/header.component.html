@@ -6,10 +6,22 @@
     <div class="header__logo-name">Photo Editor</div>
   </div>
   <div class="header__right-part">
+    <button
+      mat-raised-button
+      class="header__download-button"
+      [ngClass]="{ 'header__download-button__disabled': !isFileUploaded }"
+      [disabled]="!isFileUploaded"
+      (click)="onDownloadImage()"
+    >
+      <fa-icon [icon]="downloadIcon"></fa-icon>
+      <span class="header__download-button__text">Download</span>
+    </button>
+
     <div class="header_login-container" *ngIf="!isUserLoggedIn">
       <button mat-stroked-button class="header__signup-button" (click)="onSignup()">Sign up</button>
       <button mat-raised-button class="header__login-button" (click)="onLogin()">Sign in</button>
     </div>
+
     <div class="header__user-avatar-container" *ngIf="isUserLoggedIn">
       <img
         src="assets/images/generic-avatar.png"

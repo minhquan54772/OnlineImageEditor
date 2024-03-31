@@ -20,9 +20,18 @@ import { MatListModule } from '@angular/material/list';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { DownloadDialogComponent } from './components/download-dialog/download-dialog.component';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
 @NgModule({
-  declarations: [AppComponent, FileUploadComponent, HeaderComponent, SideMenuComponent, SignInSignUpComponent],
+  declarations: [
+    AppComponent,
+    FileUploadComponent,
+    HeaderComponent,
+    SideMenuComponent,
+    SignInSignUpComponent,
+    DownloadDialogComponent,
+  ],
   imports: [
     BrowserModule,
     AppRoutingModule,
@@ -38,6 +47,7 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
     MatMenuModule,
     MatTooltipModule,
     MatSnackBarModule,
+    FontAwesomeModule,
   ],
   providers: [provideAnimationsAsync()],
   bootstrap: [AppComponent],

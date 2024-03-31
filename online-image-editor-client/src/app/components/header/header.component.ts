@@ -1,10 +1,13 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { MatDialog, MatDialogConfig, MatDialogRef } from '@angular/material/dialog';
 import { User } from '../../models/user.model';
 import { SignInData, SignInSignUpComponent } from '../sign-in-sign-up/sign-in-sign-up.component';
 import { LocalStorageService } from '../../services/local-storage.service';
 import { UserService } from '../../services/user.service';
 import { BaseResponse } from '../../payload/response/BaseResponse';
+import { faDownload } from '@fortawesome/free-solid-svg-icons';
+import { DownloadDialogComponent } from '../download-dialog/download-dialog.component';
+import { SessionStorageService } from '../../services/session-storage.service';
 
 @Component({
   selector: 'app-header',
@@ -15,9 +18,15 @@ export class HeaderComponent implements OnInit {
   isUserLoggedIn: boolean = false;
   user: User = new User();
 
+  @Input('isFileUploaded') isFileUploaded: boolean = false;
+  @Input('image') image = new Image();
+
+  downloadIcon = faDownload;
+
   constructor(
     private dialog: MatDialog,
     private localStorageService: LocalStorageService,
+    private sessionStorageService: SessionStorageService,
     private userService: UserService
   ) {}
 
@@ -83,5 +92,16 @@ export class HeaderComponent implements OnInit {
     this.isUserLoggedIn = false;
     this.user = new User();
     this.localStorageService.removeItem('userData');
+  }
+
+  onDownloadImage() {
+    const config: MatDialogConfig = {
+      hasBackdrop: true,
+      data: {
+        image: this.image,
+        imageName: this.sessionStorageService.getItem('currentFile'),
+      },
+    };
+    const dialogRef: MatDialogRef<DownloadDialogComponent> = this.dialog.open(DownloadDialogComponent, config);
   }
 }
