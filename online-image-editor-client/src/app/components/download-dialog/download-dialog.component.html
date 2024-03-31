@@ -1,0 +1,39 @@
+<div class="download-popup__container">
+  <div class="download-popup__preview">
+    <div class="download-popup__preview__image-container">
+      <img [src]="data.image.src" class="download-popup__preview__image" />
+    </div>
+  </div>
+  <div class="download-popup__form">
+    <form>
+      <div class="mb-3">
+        <label for="fileName" class="form-label required">File name</label>
+        <input
+          type="text"
+          [(ngModel)]="fileName"
+          class="form-control"
+          name="fileName"
+          id="fileName"
+          aria-describedby="fileName-helpId"
+          placeholder="Enter file name"
+        />
+        <small id="fileName-helpId" class="form-text text-muted"></small>
+      </div>
+
+      <div class="mb-3">
+        <div for="fileName" class="form-label">Format</div>
+        <button type="button" class="btn btn-outline-primary">{{ fileExtension }}</button>
+      </div>
+
+      <a
+        role="button"
+        class="btn btn-primary"
+        [href]="data.image.src"
+        [download]="fileName + '.' + fileExtension.toLowerCase()"
+        #downloadButton
+      >
+        Download
+      </a>
+    </form>
+  </div>
+</div>

@@ -12,6 +12,7 @@ export class AppComponent implements OnInit {
   isFileUploaded: boolean = false;
   imageSize: string = '';
   zoomRatio: number = 0;
+  workingImage = new Image();
 
   @ViewChild('imageContainer') imageContainer!: ElementRef;
 
@@ -46,18 +47,18 @@ export class AppComponent implements OnInit {
 
   drawImage(imageData: string) {
     this.imageContainer.nativeElement.src = imageData;
-    const image = new Image();
-    image.src = imageData;
+    this.workingImage = new Image();
+    this.workingImage.src = imageData;
 
-    image.onload = () => {
+    this.workingImage.onload = () => {
       console.log(this.imageContainer);
 
-      this.imageSize = image.width + 'x' + image.height;
+      this.imageSize = this.workingImage.width + 'x' + this.workingImage.height;
       this.zoomRatio = this.calculateZoomRatio(
         this.imageContainer.nativeElement.width,
         this.imageContainer.nativeElement.height,
-        image.width,
-        image.height
+        this.workingImage.width,
+        this.workingImage.height
       );
     };
 

@@ -1,0 +1,38 @@
+.download-popup {
+  &__container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    align-items: center;
+    padding: 32px;
+    column-gap: 32px;
+  }
+
+  &__preview {
+    width: 320px;
+    height: 320px;
+
+    &__image {
+      max-width: 100%;
+      max-height: 100%;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+
+      &-container {
+        position: relative;
+        width: 320px;
+        height: 320px;
+        border-radius: 8px;
+      }
+    }
+  }
+
+  &__form {
+  }
+}
+
+.required::after {
+  content: "*";
+  color: #f24a63;
+}
