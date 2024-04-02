@@ -1,0 +1,26 @@
+<main class="content-container">
+  <app-side-menu class="side-menu" [isFileUploaded]="isFileUploaded"></app-side-menu>
+  <div class="content">
+    <ng-container *ngIf="!isFileUploaded">
+      <app-file-upload></app-file-upload>
+    </ng-container>
+    <div class="image-container" [ngClass]="{ hidden: !isFileUploaded }">
+      <!-- Display image here -->
+      <!-- <canvas #imageContainer> </canvas> -->
+      <img alt="IMG" class="image-container__image" #imageContainer />
+      <div class="image-container__image-size-container">
+        <div class="image-container__image-size">{{ imageSize }}</div>
+        <div class="image-container__divider"></div>
+        <div class="image-container__zoom-ratio-control">
+          <div class="image-container__zoom-button">
+            <span class="material-symbols-outlined"> remove </span>
+          </div>
+          <div class="image-container__zoom-ratio">{{ zoomRatio }}%</div>
+          <div class="image-container__zoom-button">
+            <span class="material-symbols-outlined"> add </span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>

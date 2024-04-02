@@ -42,6 +42,6 @@ export class FileUploadComponent implements OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.uploadSubscription.unsubscribe();
+    this.uploadSubscription?.unsubscribe();
   }
 }

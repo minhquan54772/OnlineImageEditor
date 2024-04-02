@@ -8,6 +8,8 @@ import { BaseResponse } from '../../payload/response/BaseResponse';
 import { faDownload } from '@fortawesome/free-solid-svg-icons';
 import { DownloadDialogComponent } from '../download-dialog/download-dialog.component';
 import { SessionStorageService } from '../../services/session-storage.service';
+import { Router } from '@angular/router';
+import { AppStateService } from '../../services/app-state.service';
 
 @Component({
   selector: 'app-header',
@@ -18,8 +20,8 @@ export class HeaderComponent implements OnInit {
   isUserLoggedIn: boolean = false;
   user: User = new User();
 
-  @Input('isFileUploaded') isFileUploaded: boolean = false;
-  @Input('image') image = new Image();
+  isFileUploaded: boolean = false;
+  image = new Image();
 
   downloadIcon = faDownload;
 
@@ -27,7 +29,9 @@ export class HeaderComponent implements OnInit {
     private dialog: MatDialog,
     private localStorageService: LocalStorageService,
     private sessionStorageService: SessionStorageService,
-    private userService: UserService
+    private appStateService: AppStateService,
+    private userService: UserService,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
@@ -39,6 +43,21 @@ export class HeaderComponent implements OnInit {
         this.getUserInfo(user.email);
       }
     }
+
+    this.appStateService._uploadCompleted$.subscribe({
+      next: (fileData: string) => {
+        this.isFileUploaded = true;
+        this.image = new Image();
+        this.image.src = fileData;
+      },
+    });
+
+    this.appStateService._filterApplied$.subscribe({
+      next: (fileData: string) => {
+        this.image = new Image();
+        this.image.src = fileData;
+      },
+    });
   }
 
   onLogin() {
@@ -85,7 +104,7 @@ export class HeaderComponent implements OnInit {
     throw new Error('Method not implemented.');
   }
   onNavToAccount() {
-    throw new Error('Method not implemented.');
+    this.router.navigate(['/my-account']);
   }
 
   onSignOut() {

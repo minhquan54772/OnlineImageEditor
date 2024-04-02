@@ -22,6 +22,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { DownloadDialogComponent } from './components/download-dialog/download-dialog.component';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { EditorComponent } from './pages/editor/editor.component';
 
 @NgModule({
   declarations: [
@@ -31,6 +32,7 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
     SideMenuComponent,
     SignInSignUpComponent,
     DownloadDialogComponent,
+    EditorComponent,
   ],
   imports: [
     BrowserModule,
