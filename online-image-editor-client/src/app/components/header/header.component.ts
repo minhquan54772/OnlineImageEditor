@@ -8,7 +8,7 @@ import { BaseResponse } from '../../payload/response/BaseResponse';
 import { faDownload } from '@fortawesome/free-solid-svg-icons';
 import { DownloadDialogComponent } from '../download-dialog/download-dialog.component';
 import { SessionStorageService } from '../../services/session-storage.service';
-import { Router } from '@angular/router';
+import { NavigationExtras, Router } from '@angular/router';
 import { AppStateService } from '../../services/app-state.service';
 
 @Component({
@@ -35,13 +35,10 @@ export class HeaderComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    const userData = this.localStorageService.getItem('userData');
-    if (userData) {
-      const user = JSON.parse(userData);
-      if (user) {
-        this.isUserLoggedIn = true;
-        this.getUserInfo(user.email);
-      }
+    const userData = this.userService.getSignedInUser();
+    if (userData && userData.email) {
+      this.isUserLoggedIn = true;
+      this.getUserInfo(userData.email);
     }
 
     this.appStateService._uploadCompleted$.subscribe({
@@ -56,6 +53,12 @@ export class HeaderComponent implements OnInit {
       next: (fileData: string) => {
         this.image = new Image();
         this.image.src = fileData;
+      },
+    });
+
+    this.appStateService._isUserSignedOut$.subscribe({
+      next: () => {
+        this.onSignOut();
       },
     });
   }
@@ -104,13 +107,21 @@ export class HeaderComponent implements OnInit {
     throw new Error('Method not implemented.');
   }
   onNavToAccount() {
-    this.router.navigate(['/my-account']);
+    const navigationExtras: NavigationExtras = {
+      state: {
+        currentUser: this.user,
+      },
+    };
+    this.router.navigate(['/my-account'], navigationExtras);
   }
 
   onSignOut() {
     this.isUserLoggedIn = false;
     this.user = new User();
     this.localStorageService.removeItem('userData');
+    this.sessionStorageService.removeItem('userData');
+
+    this.router.navigate(['/editor']);
   }
 
   onDownloadImage() {

@@ -53,9 +53,27 @@ export class HttpService {
     return this.http.post(restUrl, body, httpOptions);
   }
 
+  patch(url: string, params: any, body: any): Observable<any> {
+    const httpOptions = this.buildParams(params);
+    const restUrl = this.buildRestUrl(url);
+    return this.http.patch(restUrl, body, httpOptions);
+  }
+
+  put(url: string, params: any, body: any): Observable<any> {
+    const httpOptions = this.buildParams(params);
+    const restUrl = this.buildRestUrl(url);
+    return this.http.put(restUrl, body, httpOptions);
+  }
+
   uploadFile(url: string, params: any, body: any): Observable<any> {
     const httpOptions = this.buildParams(params);
     const restUrl = this.buildRestUrl(url);
     return this.http.post(restUrl, body, httpOptions);
+  }
+
+  delete(url: string, params: any): Observable<any> {
+    const httpOptions = this.buildParams(params);
+    const restUrl = this.buildRestUrl(url);
+    return this.http.delete(restUrl, httpOptions);
   }
 }

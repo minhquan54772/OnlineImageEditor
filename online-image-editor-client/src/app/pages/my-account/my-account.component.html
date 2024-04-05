@@ -1,0 +1,93 @@
+<section class="user-avatar">
+  <div class="wrapper">
+    <div class="user-head">
+      <div class="user-head-img">
+        <img src="assets/images/generic-avatar.png" alt="IMG" class="user-head-img__main" />
+      </div>
+      <div class="user-info">
+        <div class="user-info__display-name">{{ currentUser.displayName }}</div>
+        <div class="user-info__email">
+          <span>
+            <fa-icon [icon]="emailIcon"></fa-icon>
+          </span>
+          <span> {{ currentUser.email }} </span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<mat-tab-group class="personal-info__tabs">
+  <mat-tab label="Personal Information ">
+    <div class="personal-info__container">
+      <div class="personal-info__content">
+        <div class="personal-info__form-name">Personal Info</div>
+        <div class="personal-info__form">
+          <!-- Input: Display Name -->
+          <div class="personal-info__form-input">
+            <div class="personal-info__form-input__left-part">
+              <div class="personal-info__form-input__label">Display name:</div>
+              <ng-container *ngIf="!isEditingDisplayName">
+                <div
+                  class="personal-info__form-input__value"
+                  [ngClass]="{ 'personal-info__form-input__value-editing': isEditingDisplayName }"
+                >
+                  {{ currentUser.displayName }}
+                </div>
+              </ng-container>
+              <ng-container *ngIf="isEditingDisplayName">
+                <input
+                  type="text"
+                  class="personal-info__form-input__value-editing"
+                  [(ngModel)]="backupCurrentUser.displayName"
+                />
+              </ng-container>
+            </div>
+            <div class="personal-info__form-input__right-part">
+              <ng-container *ngIf="!isEditingDisplayName">
+                <button class="btn btn-outline-secondary" (click)="onClickEditDisplayName()">Edit</button>
+              </ng-container>
+              <ng-container *ngIf="isEditingDisplayName">
+                <button class="btn btn-outline-secondary" (click)="onCancelEditDisplayName()">Cancel</button>
+                <button class="btn btn-primary" (click)="onSaveDisplayName()">Save</button>
+              </ng-container>
+            </div>
+          </div>
+
+          <!-- Input: Email -->
+          <div class="personal-info__form-input">
+            <div class="personal-info__form-input__left-part">
+              <div class="personal-info__form-input__label">Email</div>
+              <div class="personal-info__form-input__value">{{ currentUser.email }}</div>
+            </div>
+            <div class="personal-info__form-input__right-part">
+              <button class="btn btn-outline-secondary" (click)="onModifyEmail()">Modify an email</button>
+            </div>
+          </div>
+
+          <!-- Input: Password -->
+          <div class="personal-info__form-input">
+            <div class="personal-info__form-input__left-part">
+              <div class="personal-info__form-input__label">Password</div>
+              <div class="personal-info__form-input__value">****************</div>
+            </div>
+            <div class="personal-info__form-input__right-part">
+              <button class="btn btn-outline-secondary" (click)="onClickChangePassword()">Set password</button>
+            </div>
+          </div>
+
+          <!-- Delete Account -->
+          <div class="personal-info__form-input">
+            <div class="personal-info__form-input__left-part">
+              <div class="personal-info__form-input__label">Delete Account</div>
+            </div>
+            <div class="personal-info__form-input__right-part">
+              <button class="btn btn-outline-danger" (click)="onClickDeleteAccount()">Delete</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </mat-tab>
+
+  <mat-tab label="Subscription"> Subscription </mat-tab>
+</mat-tab-group>

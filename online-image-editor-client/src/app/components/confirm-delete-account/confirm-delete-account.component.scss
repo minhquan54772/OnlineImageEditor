@@ -1,0 +1,28 @@
+.confirm-delete {
+  &__container {
+    padding: 32px;
+    max-width: 500px;
+  }
+
+  &__label {
+    color: #1e1e1e;
+    font-size: 28px;
+    margin-bottom: 32px;
+    line-height: 34px;
+    font-weight: 500;
+  }
+
+  &__message {
+    color: #909090;
+    font-size: 16px;
+    margin-bottom: 16px;
+    line-height: 20px;
+  }
+
+  &__buttons-container {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    column-gap: 16px;
+  }
+}
