@@ -1,0 +1,15 @@
+<div class="confirm-delete__container">
+  <div class="confirm-delete__label">Are you sure you want to delete your account?</div>
+  <div class="confirm-delete__message">
+    After deleting your account, you will not be able to recover it. Please ensure that your projects are properly
+    disposed of or backed up before you delete your account.
+  </div>
+  <div class="confirm-delete__message">Type "delete account" below to confirm delete your account.</div>
+  <div class="mb-3">
+    <input type="text" class="form-control" [(ngModel)]="confirmMessage" />
+  </div>
+  <div class="confirm-delete__buttons-container">
+    <button class="btn btn-outline-secondary" (click)="onCancel()">Not Now</button>
+    <button class="btn btn-primary" (click)="deleteAccount()">Yes. Delete Account</button>
+  </div>
+</div>

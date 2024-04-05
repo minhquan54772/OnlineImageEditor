@@ -23,6 +23,10 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { DownloadDialogComponent } from './components/download-dialog/download-dialog.component';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { EditorComponent } from './pages/editor/editor.component';
+import { MyAccountComponent } from './pages/my-account/my-account.component';
+import { MatTabsModule } from '@angular/material/tabs';
+import { ChangePasswordPopupComponent } from './components/change-password-popup/change-password-popup.component';
+import { ConfirmDeleteAccountComponent } from './components/confirm-delete-account/confirm-delete-account.component';
 
 @NgModule({
   declarations: [
@@ -33,6 +37,9 @@ import { EditorComponent } from './pages/editor/editor.component';
     SignInSignUpComponent,
     DownloadDialogComponent,
     EditorComponent,
+    MyAccountComponent,
+    ChangePasswordPopupComponent,
+    ConfirmDeleteAccountComponent,
   ],
   imports: [
     BrowserModule,
@@ -50,6 +57,7 @@ import { EditorComponent } from './pages/editor/editor.component';
     MatTooltipModule,
     MatSnackBarModule,
     FontAwesomeModule,
+    MatTabsModule,
   ],
   providers: [provideAnimationsAsync()],
   bootstrap: [AppComponent],

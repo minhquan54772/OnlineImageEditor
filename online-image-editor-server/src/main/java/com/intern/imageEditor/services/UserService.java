@@ -2,6 +2,7 @@ package com.intern.imageEditor.services;
 
 import com.intern.imageEditor.models.User;
 import com.intern.imageEditor.repository.UserRepository;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -41,5 +42,12 @@ public class UserService {
         User userToUpdate = getUserById(id);
         userToUpdate.updateInfo(newUserData);
         return userRepository.save(userToUpdate);
+    }
+
+    public void deleteUser(Long id) {
+        User user = userRepository.findById(id).orElse(null);
+        if (user != null) {
+            userRepository.delete(user);
+        }
     }
 }

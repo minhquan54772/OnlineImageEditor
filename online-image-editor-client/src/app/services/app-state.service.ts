@@ -20,4 +20,11 @@ export class AppStateService {
   public applyFilter(fileData: string) {
     this._filterApplied.next(fileData);
   }
+
+  private _isUserSignedOut = new Subject<void>();
+  _isUserSignedOut$ = this._isUserSignedOut.asObservable();
+
+  public userSignedOut() {
+    this._isUserSignedOut.next();
+  }
 }
