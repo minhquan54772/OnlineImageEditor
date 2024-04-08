@@ -1,16 +1,17 @@
 package com.intern.imageEditor.controllers;
 
+import com.intern.imageEditor.models.Subscription;
 import com.intern.imageEditor.models.User;
 import com.intern.imageEditor.payload.response.BaseResponse;
 import com.intern.imageEditor.repository.UserRepository;
 import com.intern.imageEditor.services.UserService;
 import com.intern.imageEditor.utils.Patcher;
-import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -39,7 +40,7 @@ public class UserController {
             // user da ton tai
             return ResponseEntity.status(HttpStatusCode.valueOf(400)).body(new BaseResponse<>(null, false, "This email is linked to an existed account already"));
         } else {
-            User user = userService.createUser(newUser);
+            User user = userService.createOrUpdateUser(newUser);
             return ResponseEntity.status(HttpStatusCode.valueOf(201)).body(new BaseResponse<>(user, true));
         }
     }
@@ -73,6 +74,16 @@ public class UserController {
     @DeleteMapping("/{id}")
     public void deleteUser(@PathVariable Long id) {
         userService.deleteUser(id);
+    }
+
+    @GetMapping("/{id}/subscriptions")
+    public ResponseEntity<BaseResponse<List<Subscription>>> getUserSubscriptions(@PathVariable Long id) {
+        try {
+            List<Subscription> subscriptions = userService.getAllUserSubscriptionsById(id);
+            return ResponseEntity.ok().body(new BaseResponse<>(subscriptions, true));
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatusCode.valueOf(404)).body(new BaseResponse<>(new ArrayList<>(), false, e.getMessage()));
+        }
     }
 
 

@@ -36,6 +36,13 @@
     height: 40px;
 
     &-container {
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+      column-gap: 16px;
+    }
+
+    &-content {
       width: 40px;
       height: 40px;
       border-radius: 50%;
@@ -77,6 +84,8 @@
 
 .menu-container {
   padding: 8px 16px;
+  max-width: 300px;
+  width: fit-content;
 }
 
 .menu-user-info {
@@ -110,6 +119,28 @@
   }
   &__nickname {
     color: #1e1e1e;
+  }
+
+  &__subscription-plan {
+    background: url("/assets/images/upgrade-bg.jpg");
+    padding: 12px;
+    border-radius: 6px;
+    background-size: cover;
+    background-repeat: no-repeat;
+    min-width: 268px;
+    width: fit-content;
+
+    &__label {
+      font-size: 16px;
+      font-weight: 600;
+      color: #1e1e1e;
+    }
+
+    &__message {
+      color: #909090;
+      font-size: 14px;
+      font-weight: 400;
+    }
   }
 }
 

@@ -1,1 +1,1 @@
-INSERT INTO User (id, display_name, email, password) VALUES (1, "ADMIN", "admin@admin.com", "admin");
+INSERT INTO User (id, display_name, email, password, is_vip) VALUES (1, "ADMIN", "admin@admin.com", "YWRtaW5hZG1pbg==", false);

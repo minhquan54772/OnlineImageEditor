@@ -1,0 +1,87 @@
+<div class="upgrade-vip__container">
+  <div class="upgrade-vip__plans-container">
+    <div class="upgrade-vip__label">Great deal today!</div>
+    <div class="upgrade-vip__message">Upgrade to unlock all the premium features and resources</div>
+    <div class="upgrade-vip__message">You are in BASIC plan now.</div>
+    <div class="upgrade-vip__plans-list">
+      <div
+        #planBasic
+        class="upgrade-vip__plan-item"
+        [ngClass]="{ 'upgrade-vip__plan-item__basic': selectedPlan === 'basic' }"
+        (click)="selectedPlan = 'basic'"
+      >
+        <div class="upgrade-vip__plan-item__label">Basic</div>
+        <div class="upgrade-vip__plan-item__cost">
+          <div class="upgrade-vip__plan-item__cost-free">Free</div>
+        </div>
+      </div>
+      <div
+        #planPro
+        class="upgrade-vip__plan-item"
+        (click)="selectedPlan = 'pro'"
+        [ngClass]="{ 'upgrade-vip__plan-item__pro': selectedPlan == 'pro' }"
+      >
+        <div class="upgrade-vip__plan-item__promotion">
+          <fa-icon [icon]="discountIcon"></fa-icon>
+          <span>34% OFF</span>
+        </div>
+        <div class="upgrade-vip__plan-item__label">Pro</div>
+        <div class="upgrade-vip__plan-item__cost">
+          <div class="upgrade-vip__plan-item__cost-discounted">US$2.66/mo</div>
+          <div class="upgrade-vip__plan-item__cost-original">US$4/mo</div>
+        </div>
+      </div>
+    </div>
+    <div class="upgrade-vip__upgrade-button d-grid gap-2">
+      <button type="button" class="btn btn-warning" [disabled]="selectedPlan == 'basic'" (click)="onClickUpgrade()">
+        Upgrade VIP Plan
+      </button>
+    </div>
+  </div>
+  <div class="upgrade-vip__features-container">
+    <div class="table-responsive">
+      <table class="table table-hover table-borderless align-middle">
+        <thead>
+          <tr>
+            <th colspan="2">Feature</th>
+            <th [ngStyle]="{ color: '#436ccb' }">Basic</th>
+            <th [ngStyle]="{ color: '#ffb24e' }">Pro</th>
+          </tr>
+        </thead>
+        <tbody class="table-group-divider">
+          <tr>
+            <td colspan="4">Effects</td>
+          </tr>
+          <tr *ngFor="let filter of imageFilters">
+            <td></td>
+            <td>{{ filter.displayName }}</td>
+            <td>
+              <fa-icon
+                [icon]="filter.purchaseRequired ? notAvailableIcon : availableIcon"
+                [style]="{ color: filter.purchaseRequired ? '#f24a63' : '#436ccb' }"
+              >
+              </fa-icon>
+            </td>
+            <td>
+              <fa-icon [icon]="availableIcon" [style]="{ color: '#ffb24e' }"></fa-icon>
+            </td>
+          </tr>
+          <tr>
+            <td colspan="4">Adjust</td>
+          </tr>
+          <tr>
+            <td></td>
+            <td>Brightness</td>
+            <td>
+              <fa-icon [icon]="availableIcon" [style]="{ color: '#436cc2' }"></fa-icon>
+            </td>
+            <td>
+              <fa-icon [icon]="availableIcon" [style]="{ color: '#ffb24e' }"></fa-icon>
+            </td>
+          </tr>
+        </tbody>
+        <tfoot></tfoot>
+      </table>
+    </div>
+  </div>
+</div>

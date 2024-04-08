@@ -1,5 +1,5 @@
 <mat-toolbar class="header">
-  <div class="header__left-part">
+  <div class="header__left-part" (click)="openHomePage()">
     <div class="header__logo-container">
       <img src="assets/images/photo-editor-logo.png" alt="LOGO" srcset="" class="header__logo" />
     </div>
@@ -23,13 +23,19 @@
     </div>
 
     <div class="header__user-avatar-container" *ngIf="isUserLoggedIn">
-      <img
-        src="assets/images/generic-avatar.png"
-        alt="AVATAR"
-        srcset=""
-        class="header__user-avatar"
-        [matMenuTriggerFor]="menu"
-      />
+      <button class="btn btn-outline-warning" *ngIf="!user.isVip" (click)="onClickUpgradeVIP()">
+        <fa-icon [icon]="vipIcon"></fa-icon>
+        <span> Upgrade VIP </span>
+      </button>
+      <div class="header__user-avatar-content">
+        <img
+          src="assets/images/generic-avatar.png"
+          alt="AVATAR"
+          srcset=""
+          class="header__user-avatar"
+          [matMenuTriggerFor]="menu"
+        />
+      </div>
       <mat-menu #menu="matMenu">
         <div class="menu-container">
           <div class="menu-user-info">
@@ -39,6 +45,20 @@
             <div class="menu-user-info__nickname-email-wrapper">
               <div class="menu-user-info__nickname">{{ user.displayName }}</div>
               <div class="menu-user-info__email">{{ user.email }}</div>
+            </div>
+          </div>
+          <div class="divider"></div>
+          <div class="menu-user-info__subscription-plan">
+            <div class="menu-user-info__subscription-plan__label">{{ user.isVip ? "Pro Plan" : "Basic Plan" }}</div>
+            <div class="menu-user-info__subscription-plan__message">
+              {{
+                user.isVip
+                  ? "You can use all the premium features & resources"
+                  : "Upgrade to unlock all the premium features & resources"
+              }}
+            </div>
+            <div class="d-grid gap-2" *ngIf="!user.isVip">
+              <button type="button" class="btn btn-warning" (click)="onClickUpgradeVIP()">Upgrade with 34% OFF</button>
             </div>
           </div>
           <div class="divider"></div>

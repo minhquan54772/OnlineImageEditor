@@ -27,6 +27,7 @@ import { MyAccountComponent } from './pages/my-account/my-account.component';
 import { MatTabsModule } from '@angular/material/tabs';
 import { ChangePasswordPopupComponent } from './components/change-password-popup/change-password-popup.component';
 import { ConfirmDeleteAccountComponent } from './components/confirm-delete-account/confirm-delete-account.component';
+import { BuyVipPopupComponent } from './components/buy-vip-popup/buy-vip-popup.component';
 
 @NgModule({
   declarations: [
@@ -40,6 +41,7 @@ import { ConfirmDeleteAccountComponent } from './components/confirm-delete-accou
     MyAccountComponent,
     ChangePasswordPopupComponent,
     ConfirmDeleteAccountComponent,
+    BuyVipPopupComponent,
   ],
   imports: [
     BrowserModule,

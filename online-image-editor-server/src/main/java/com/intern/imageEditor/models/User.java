@@ -3,6 +3,7 @@ package com.intern.imageEditor.models;
 import jakarta.persistence.*;
 
 import java.nio.charset.StandardCharsets;
+import java.time.Instant;
 import java.util.Base64;
 import java.util.List;
 
@@ -20,6 +21,9 @@ public class User {
     private String email;
     @Column(name = "displayName", nullable = true)
     private String displayName;
+
+    @Column(name = "is_vip", nullable = false, columnDefinition = "boolean default false")
+    private boolean isVip = false;
 
     @OneToMany(targetEntity = Project.class, cascade = CascadeType.ALL)
     @JoinColumn(name = "user_id")
@@ -93,5 +97,13 @@ public class User {
 
     public void setSubscriptionList(List<Subscription> subscriptionList) {
         this.subscriptionList = subscriptionList;
+    }
+
+    public boolean getIsVip() {
+        return isVip;
+    }
+
+    public void setIsVip(boolean vip) {
+        isVip = vip;
     }
 }
