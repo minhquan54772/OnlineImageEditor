@@ -27,4 +27,11 @@ export class AppStateService {
   public userSignedOut() {
     this._isUserSignedOut.next();
   }
+
+  private _vipPurchased = new Subject<void>();
+  _vipPurchased$ = this._vipPurchased.asObservable();
+
+  public userPurchasedVip() {
+    this._vipPurchased.next();
+  }
 }

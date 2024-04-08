@@ -1,15 +1,16 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { MatDialog, MatDialogConfig, MatDialogRef } from '@angular/material/dialog';
-import { User } from '../../models/user.model';
-import { SignInData, SignInSignUpComponent } from '../sign-in-sign-up/sign-in-sign-up.component';
-import { LocalStorageService } from '../../services/local-storage.service';
-import { UserService } from '../../services/user.service';
-import { BaseResponse } from '../../payload/response/BaseResponse';
-import { faDownload } from '@fortawesome/free-solid-svg-icons';
-import { DownloadDialogComponent } from '../download-dialog/download-dialog.component';
-import { SessionStorageService } from '../../services/session-storage.service';
 import { NavigationExtras, Router } from '@angular/router';
+import { faCrown, faDownload } from '@fortawesome/free-solid-svg-icons';
+import { User } from '../../models/user.model';
+import { BaseResponse } from '../../payload/response/BaseResponse';
 import { AppStateService } from '../../services/app-state.service';
+import { LocalStorageService } from '../../services/local-storage.service';
+import { SessionStorageService } from '../../services/session-storage.service';
+import { UserService } from '../../services/user.service';
+import { DownloadDialogComponent } from '../download-dialog/download-dialog.component';
+import { SignInData, SignInSignUpComponent } from '../sign-in-sign-up/sign-in-sign-up.component';
+import { BuyVipPopupComponent } from '../buy-vip-popup/buy-vip-popup.component';
 
 @Component({
   selector: 'app-header',
@@ -24,6 +25,7 @@ export class HeaderComponent implements OnInit {
   image = new Image();
 
   downloadIcon = faDownload;
+  vipIcon = faCrown;
 
   constructor(
     private dialog: MatDialog,
@@ -93,10 +95,7 @@ export class HeaderComponent implements OnInit {
   getUserInfo(email: string) {
     this.userService.findUserByEmail(email).subscribe({
       next: (response: BaseResponse<User>) => {
-        this.user = new User();
-
-        this.user.email = response.data.email;
-        this.user.displayName = response.data.displayName;
+        this.user = response.data;
       },
       error: (error) => {
         console.log(error);
@@ -133,5 +132,19 @@ export class HeaderComponent implements OnInit {
       },
     };
     const dialogRef: MatDialogRef<DownloadDialogComponent> = this.dialog.open(DownloadDialogComponent, config);
+  }
+
+  onClickUpgradeVIP() {
+    const config: MatDialogConfig = {
+      hasBackdrop: true,
+      data: {
+        currentUser: this.user,
+      },
+    };
+    const dialogRef: MatDialogRef<BuyVipPopupComponent> = this.dialog.open(BuyVipPopupComponent, config);
+  }
+
+  openHomePage() {
+    this.router.navigate(['/editor']);
   }
 }

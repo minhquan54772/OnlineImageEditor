@@ -4,6 +4,9 @@ import { AppStateService } from '../../services/app-state.service';
 import { BaseResponse } from '../../payload/response/BaseResponse';
 import { ImageFilter } from '../../models/image-filter.model';
 import { filter } from 'rxjs';
+import { faCrown } from '@fortawesome/free-solid-svg-icons';
+import { User } from '../../models/user.model';
+import { UserService } from '../../services/user.service';
 
 @Component({
   selector: 'app-side-menu',
@@ -15,10 +18,33 @@ export class SideMenuComponent implements OnInit {
   activeFilter: ImageFilter | undefined;
   @Input('isFileUploaded') isFileUploaded: boolean = false;
 
-  constructor(private imageFilterService: ImageFilterService, private appStateService: AppStateService) {}
+  currentUser: User = new User();
+
+  vipIcon = faCrown;
+
+  constructor(
+    private imageFilterService: ImageFilterService,
+    private userService: UserService,
+    private appStateService: AppStateService
+  ) {}
 
   ngOnInit(): void {
+    this.getCurrentUser();
     this.getAllFilters();
+  }
+
+  getCurrentUser() {
+    const user: User | undefined = this.userService.getSignedInUser();
+    if (user) {
+      this.userService.findUserByEmail(user.email).subscribe({
+        next: (response: BaseResponse<User>) => {
+          this.currentUser = response.data;
+        },
+        error: (error) => {
+          console.log(error);
+        },
+      });
+    }
   }
 
   getAllFilters() {
@@ -30,18 +56,22 @@ export class SideMenuComponent implements OnInit {
     });
   }
 
-  applyFilter(filterName: string) {
+  applyFilter(selectedFilter: ImageFilter) {
     if (!this.isFileUploaded) {
       return;
     }
 
+    if (selectedFilter.purchaseRequired && !this.currentUser.isVip) {
+      return;
+    }
+
     this.resetActive();
-    this.activeFilter = this.imageFilters.find((filter) => filter.name === filterName);
+    this.activeFilter = this.imageFilters.find((filter) => filter.name === selectedFilter.name);
     if (this.activeFilter) {
       this.activeFilter.active = true;
     }
 
-    this.imageFilterService.applyFilter(filterName).subscribe({
+    this.imageFilterService.applyFilter(selectedFilter.name).subscribe({
       next: (response: BaseResponse<string>) => {
         this.appStateService.applyFilter(response.data);
       },
@@ -55,5 +85,18 @@ export class SideMenuComponent implements OnInit {
     this.imageFilters.forEach((filter) => {
       filter.active = false;
     });
+  }
+
+  getFilterTooltipContent(selectedFilter: ImageFilter): string {
+    if (!this.isFileUploaded) {
+      return 'Please open an image before editing';
+    } else if (selectedFilter.purchaseRequired && !this.currentUser.isVip) {
+      return 'You need to upgrade VIP to use this feature.';
+    }
+    return '';
+  }
+
+  isFilterTooltipDisabled(selectedFilter: ImageFilter) {
+    return this.isFileUploaded && selectedFilter.purchaseRequired && this.currentUser.isVip;
   }
 }

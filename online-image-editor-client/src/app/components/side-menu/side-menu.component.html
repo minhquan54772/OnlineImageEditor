@@ -24,12 +24,15 @@
     <div
       *ngFor="let filter of imageFilters"
       class="category-item"
-      [matTooltip]="!isFileUploaded ? 'Please open an image before editing' : ''"
-      [matTooltipDisabled]="isFileUploaded"
-      (click)="applyFilter(filter.name)"
+      [matTooltip]="getFilterTooltipContent(filter)"
+      [matTooltipDisabled]="isFilterTooltipDisabled(filter)"
+      (click)="applyFilter(filter)"
     >
       <div class="category-item__purchased-required" *ngIf="filter.purchaseRequired">
-        <img src="assets/images/vip-required.svg" alt="VIP" class="category-item__purchased-required__icon" />
+        <span class="badge rounded-pill text-bg-warning">
+          <fa-icon [icon]="vipIcon"></fa-icon>
+          VIP
+        </span>
       </div>
       <div class="category-item__filter-preview" [ngClass]="{ 'category-item__filter-preview__active': filter.active }">
         <img class="category-item__preview" src="assets/images/filters/{{ filter.name }}.jpg" alt="{{ filter.name }}" />

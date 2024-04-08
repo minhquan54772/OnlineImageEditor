@@ -62,9 +62,8 @@
   &__purchased-required {
     position: absolute;
     top: 0;
-    right: 8px;
-    width: 24px;
-    height: 24px;
+    right: 0;
+    transform: translateY(-50%);
     background: transparent;
 
     &__icon {
