@@ -1,13 +1,15 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { faEnvelope } from '@fortawesome/free-solid-svg-icons';
+import { faCrown, faEnvelope } from '@fortawesome/free-solid-svg-icons';
 import _ from 'lodash';
 import { User } from '../../models/user.model';
 import { BaseResponse } from '../../payload/response/BaseResponse';
 import { UserService } from '../../services/user.service';
-import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
+import { MatDialog, MatDialogConfig, MatDialogRef } from '@angular/material/dialog';
 import { ChangePasswordPopupComponent } from '../../components/change-password-popup/change-password-popup.component';
 import { ConfirmDeleteAccountComponent } from '../../components/confirm-delete-account/confirm-delete-account.component';
+import { BuyVipPopupComponent } from '../../components/buy-vip-popup/buy-vip-popup.component';
+import { Subscription } from '../../models/subscription.model';
 
 @Component({
   selector: 'app-my-account',
@@ -16,6 +18,7 @@ import { ConfirmDeleteAccountComponent } from '../../components/confirm-delete-a
 })
 export class MyAccountComponent implements OnInit {
   emailIcon = faEnvelope;
+  vipIcon = faCrown;
   currentUser: User = new User();
 
   isEditingDisplayName: boolean = false;
@@ -86,5 +89,30 @@ export class MyAccountComponent implements OnInit {
       },
     };
     this.matDialog.open(ConfirmDeleteAccountComponent, matDialogConfig);
+  }
+
+  onClickUpgradeVIP() {
+    const config: MatDialogConfig = {
+      hasBackdrop: true,
+      data: {
+        currentUser: this.currentUser,
+      },
+    };
+    const dialogRef: MatDialogRef<BuyVipPopupComponent> = this.matDialog.open(BuyVipPopupComponent, config);
+  }
+
+  /**
+   * convert Server Instant To JavaScript Date object
+   * @param instant Java instant => number of SECONDS since Jan 01 1970
+   * @returns JavaScript Date => number of MILISECONDS since Jan 01 1970
+   */
+  convertServerInstantToDate(instant: number): Date {
+    return new Date(instant * 1000);
+  }
+
+  isActiveSubscription(sub: Subscription): boolean {
+    const now = new Date();
+    const expiredDate = this.convertServerInstantToDate(sub.endDate);
+    return expiredDate > now;
   }
 }
