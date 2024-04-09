@@ -107,3 +107,92 @@
     }
   }
 }
+
+.subscription {
+  &__container {
+    padding: 64px 32px;
+    width: 100%;
+    background: #f2f2f2;
+  }
+
+  &__no-subscription {
+    &__container {
+      max-width: 700px;
+      width: 100%;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      column-gap: 50px;
+    }
+
+    &__upgrade-img {
+      width: 40%;
+
+      img {
+        max-width: 100%;
+      }
+    }
+
+    &__upgrade-content {
+      width: calc(60% - 50px);
+    }
+
+    &__content-label {
+      color: #1e1e1e;
+      font-size: 16px;
+      font-weight: 700;
+      margin-bottom: 16px;
+    }
+
+    &__content-message {
+      color: #959595;
+      font-size: 14px;
+      font-weight: 500;
+      margin-bottom: 16px;
+    }
+  }
+
+  &__subscription-list {
+    &__container {
+      max-width: 700px;
+      width: 100%;
+      margin: 0 auto;
+    }
+
+    &__item {
+      padding: 16px;
+      border-radius: 8px;
+      margin-bottom: 16px;
+      background: linear-gradient(135deg, rgba(255, 252, 206, 1) 0%, rgba(255, 179, 48, 1) 100%);
+      opacity: 0.6;
+
+      &-active {
+        background: url("/assets/images/upgrade-bg.jpg");
+        background-size: cover;
+        background-repeat: no-repeat;
+        opacity: 1;
+      }
+
+      &-label {
+        font-size: 24px;
+        color: #1e1e1e;
+        font-weight: 700;
+        margin-bottom: 16px;
+      }
+
+      &-price {
+        font-size: 20px;
+        color: #1e1e1e;
+        font-weight: 500;
+        margin-bottom: 16px;
+      }
+
+      &-expiration {
+        font-size: 16px;
+        color: #959595;
+        font-weight: 500;
+      }
+    }
+  }
+}

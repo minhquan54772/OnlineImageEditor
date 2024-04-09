@@ -16,7 +16,7 @@
     </div>
   </div>
 </section>
-<mat-tab-group class="personal-info__tabs">
+<mat-tab-group class="personal-info__tabs" mat-stretch-tabs="false" mat-align-tabs="center">
   <mat-tab label="Personal Information ">
     <div class="personal-info__container">
       <div class="personal-info__content">
@@ -89,5 +89,45 @@
     </div>
   </mat-tab>
 
-  <mat-tab label="Subscription"> Subscription </mat-tab>
+  <mat-tab label="Subscription">
+    <div class="subscription__container">
+      <div class="subscription__no-subscription__container" *ngIf="!currentUser.isVip">
+        <div class="subscription__no-subscription__upgrade-img">
+          <img src="assets/images/upgrade-image.svg" alt="upgrade-image" />
+        </div>
+        <div class="subscription__no-subscription__upgrade-content">
+          <div class="subscription__no-subscription__content-label">Upgrade your account now!</div>
+          <div class="subscription__no-subscription__content-message">
+            With no ads and full access to all new content, features and cutting edge image processing tech, your
+            experience has never been so good!
+          </div>
+          <div class="d-grid gap-2">
+            <button type="button" class="btn btn-warning" (click)="onClickUpgradeVIP()">
+              Upgrade with 34% OFF now!
+            </button>
+          </div>
+        </div>
+      </div>
+      <div class="subscription__subscription-list__container" *ngIf="currentUser.isVip">
+        <div
+          class="subscription__subscription-list__item"
+          [ngClass]="{ 'subscription__subscription-list__item-active': isActiveSubscription(sub) }"
+          *ngFor="let sub of currentUser.subscriptionList"
+        >
+          <div class="subscription__subscription-list__item-label">
+            <span class="badge rounded-pill text-bg-warning" *ngIf="isActiveSubscription(sub)">
+              <span class="spinner-grow spinner-grow-sm" role="status" aria-hidden="true"></span>
+              ACTIVE
+            </span>
+            <span class="badge rounded-pill text-bg-light" *ngIf="!isActiveSubscription(sub)"> EXPIRED </span>
+            Pro Plan
+          </div>
+          <div class="subscription__subscription-list__item-price">$2.66 | 30 Days</div>
+          <div class="subscription__subscription-list__item-expiration">
+            Expired at {{ convertServerInstantToDate(sub.endDate) | date : "medium" }}
+          </div>
+        </div>
+      </div>
+    </div>
+  </mat-tab>
 </mat-tab-group>
