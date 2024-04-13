@@ -1,5 +1,6 @@
 package com.intern.imageEditor.controllers;
 
+import com.intern.imageEditor.models.Project;
 import com.intern.imageEditor.models.Subscription;
 import com.intern.imageEditor.models.User;
 import com.intern.imageEditor.payload.response.BaseResponse;
@@ -81,6 +82,16 @@ public class UserController {
         try {
             List<Subscription> subscriptions = userService.getAllUserSubscriptionsById(id);
             return ResponseEntity.ok().body(new BaseResponse<>(subscriptions, true));
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatusCode.valueOf(404)).body(new BaseResponse<>(new ArrayList<>(), false, e.getMessage()));
+        }
+    }
+
+    @GetMapping("/{id}/projects")
+    public ResponseEntity<BaseResponse<List<Project>>> getUserProjects(@PathVariable Long id) {
+        try {
+            List<Project> allUserProjects = userService.getAllUserProjects(id);
+            return ResponseEntity.ok().body(new BaseResponse<>(allUserProjects, true));
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatusCode.valueOf(404)).body(new BaseResponse<>(new ArrayList<>(), false, e.getMessage()));
         }
