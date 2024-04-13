@@ -1,3 +1,4 @@
+import { Project } from './project.model';
 import { Subscription } from './subscription.model';
 
 export class User {
@@ -7,4 +8,5 @@ export class User {
   password?: string;
   isVip?: boolean = false;
   subscriptionList?: Array<Subscription> = new Array();
+  projectList?: Array<Project> = new Array();
 }
