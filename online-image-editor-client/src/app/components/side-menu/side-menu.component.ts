@@ -1,11 +1,10 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { ImageFilterService } from '../../services/image-filter.service';
-import { AppStateService } from '../../services/app-state.service';
-import { BaseResponse } from '../../payload/response/BaseResponse';
+import { faCloud, faCrown, faSliders, faWandMagicSparkles } from '@fortawesome/free-solid-svg-icons';
 import { ImageFilter } from '../../models/image-filter.model';
-import { filter } from 'rxjs';
-import { faCrown } from '@fortawesome/free-solid-svg-icons';
 import { User } from '../../models/user.model';
+import { BaseResponse } from '../../payload/response/BaseResponse';
+import { AppStateService } from '../../services/app-state.service';
+import { ImageFilterService } from '../../services/image-filter.service';
 import { UserService } from '../../services/user.service';
 
 @Component({
@@ -21,6 +20,9 @@ export class SideMenuComponent implements OnInit {
   currentUser: User = new User();
 
   vipIcon = faCrown;
+  effectIcon = faWandMagicSparkles;
+  adjustIcon = faSliders;
+  saveProjectIcon = faCloud;
 
   constructor(
     private imageFilterService: ImageFilterService,

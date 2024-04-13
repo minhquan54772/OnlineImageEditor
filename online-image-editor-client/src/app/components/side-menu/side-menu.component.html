@@ -1,43 +1,69 @@
+<!-- Nav tabs -->
 <div class="left-menu">
-  <div class="left-menu__category">
-    <div class="category-item">
-      <div class="category-item__icon">
-        <span class="material-symbols-outlined"> tune </span>
-      </div>
-      <div class="category-item__label">Adjust</div>
-    </div>
-    <div class="category-item">
-      <div class="category-item__icon">
-        <span class="material-symbols-outlined"> filter_vintage </span>
-      </div>
-      <div class="category-item__label">Effects</div>
-    </div>
-    <div class="category-item">
-      <div class="category-item__icon">
-        <span class="material-symbols-outlined"> title </span>
-      </div>
-      <div class="category-item__label">Text</div>
-    </div>
-  </div>
+  <ul class="nav nav-pills flex-column left-menu__category" id="myTab" role="tablist">
+    <li class="nav-item category-item" role="presentation">
+      <button
+        class="nav-link active"
+        id="effects-tab"
+        data-bs-toggle="tab"
+        data-bs-target="#effects"
+        type="button"
+        role="tab"
+        aria-controls="effects"
+        aria-selected="true"
+      >
+        <fa-icon [icon]="effectIcon" [size]="'xl'" class="category-item__icon"></fa-icon>
+        <div class="category-item__label">Effects</div>
+      </button>
+    </li>
+    <li class="nav-item category-item" role="presentation">
+      <button
+        class="nav-link"
+        id="adjust-tab"
+        data-bs-toggle="tab"
+        data-bs-target="#adjust"
+        type="button"
+        role="tab"
+        aria-controls="adjust"
+        aria-selected="false"
+      >
+        <fa-icon [icon]="adjustIcon" [size]="'xl'" class="category-item__icon"></fa-icon>
+        <div class="category-item__label">Adjust</div>
+      </button>
+    </li>
+  </ul>
 
-  <div class="left-menu__category-content">
-    <div
-      *ngFor="let filter of imageFilters"
-      class="category-item"
-      [matTooltip]="getFilterTooltipContent(filter)"
-      [matTooltipDisabled]="isFilterTooltipDisabled(filter)"
-      (click)="applyFilter(filter)"
-    >
-      <div class="category-item__purchased-required" *ngIf="filter.purchaseRequired">
-        <span class="badge rounded-pill text-bg-warning">
-          <fa-icon [icon]="vipIcon"></fa-icon>
-          VIP
-        </span>
+  <!-- Tab panes -->
+  <div class="tab-content left-menu__category-content">
+    <div class="tab-pane active" id="effects" role="tabpanel" aria-labelledby="effects-tab">
+      <div class="left-menu__effects-container">
+        <div
+          *ngFor="let filter of imageFilters"
+          class="category-item"
+          [matTooltip]="getFilterTooltipContent(filter)"
+          [matTooltipDisabled]="isFilterTooltipDisabled(filter)"
+          (click)="applyFilter(filter)"
+        >
+          <div class="category-item__purchased-required" *ngIf="filter.purchaseRequired">
+            <span class="badge rounded-pill text-bg-warning">
+              <fa-icon [icon]="vipIcon"></fa-icon>
+              VIP
+            </span>
+          </div>
+          <div
+            class="category-item__filter-preview"
+            [ngClass]="{ 'category-item__filter-preview__active': filter.active }"
+          >
+            <img
+              class="category-item__preview"
+              src="assets/images/filters/{{ filter.name }}.jpg"
+              alt="{{ filter.name }}"
+            />
+          </div>
+          <div class="category-item__label">{{ filter.displayName }}</div>
+        </div>
       </div>
-      <div class="category-item__filter-preview" [ngClass]="{ 'category-item__filter-preview__active': filter.active }">
-        <img class="category-item__preview" src="assets/images/filters/{{ filter.name }}.jpg" alt="{{ filter.name }}" />
-      </div>
-      <div class="category-item__label">{{ filter.displayName }}</div>
     </div>
+    <div class="tab-pane" id="adjust" role="tabpanel" aria-labelledby="adjust-tab">adjust</div>
   </div>
 </div>
