@@ -1,5 +1,6 @@
 package com.intern.imageEditor.services;
 
+import com.intern.imageEditor.models.Project;
 import com.intern.imageEditor.models.Subscription;
 import com.intern.imageEditor.models.User;
 import com.intern.imageEditor.repository.UserRepository;
@@ -44,6 +45,15 @@ public class UserService {
             throw new Exception("User not found");
         } else {
             return userById.getSubscriptionList();
+        }
+    }
+
+    public List<Project> getAllUserProjects(Long id) throws Exception {
+        User userById = getUserById(id);
+        if (userById == null) {
+            throw new Exception("User not found");
+        } else {
+            return userById.getProjectList();
         }
     }
 }
