@@ -29,6 +29,22 @@
     column-gap: 8px;
     row-gap: 24px;
   }
+
+  &__save-project {
+    &__container {
+      width: 280px;
+    }
+
+    &__input {
+      &-label {
+        color: #ffffff;
+      }
+
+      &-error {
+        border: 2px solid #f24a63;
+      }
+    }
+  }
 }
 
 .category-item {

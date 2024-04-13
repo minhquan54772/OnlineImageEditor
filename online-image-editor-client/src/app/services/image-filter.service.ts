@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpService } from './http.service';
-import { ApplyFilterRequest } from '../payload/request/ApplyFilterRequest';
+import { ApplyFilterRequest } from '../payload/request/apply-filter-request';
 import { SessionStorageService } from './session-storage.service';
 import { Observable } from 'rxjs';
 import { BaseResponse } from '../payload/response/BaseResponse';

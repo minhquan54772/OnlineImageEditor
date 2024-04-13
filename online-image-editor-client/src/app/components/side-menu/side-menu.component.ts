@@ -6,6 +6,11 @@ import { BaseResponse } from '../../payload/response/BaseResponse';
 import { AppStateService } from '../../services/app-state.service';
 import { ImageFilterService } from '../../services/image-filter.service';
 import { UserService } from '../../services/user.service';
+import { SessionStorageService } from '../../services/session-storage.service';
+import { CreateProjectRequest } from '../../payload/request/create-project-request';
+import { ProjectService } from '../../services/project.service';
+import { Project } from '../../models/project.model';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-side-menu',
@@ -24,15 +29,21 @@ export class SideMenuComponent implements OnInit {
   adjustIcon = faSliders;
   saveProjectIcon = faCloud;
 
+  projectName: string = '';
+
   constructor(
     private imageFilterService: ImageFilterService,
     private userService: UserService,
-    private appStateService: AppStateService
+    private appStateService: AppStateService,
+    private sessionStorageService: SessionStorageService,
+    private projectService: ProjectService,
+    private matSnackBar: MatSnackBar
   ) {}
 
   ngOnInit(): void {
     this.getCurrentUser();
     this.getAllFilters();
+    this.projectName = this.getProjectName();
   }
 
   getCurrentUser() {
@@ -100,5 +111,33 @@ export class SideMenuComponent implements OnInit {
 
   isFilterTooltipDisabled(selectedFilter: ImageFilter) {
     return this.isFileUploaded && selectedFilter.purchaseRequired && this.currentUser.isVip;
+  }
+
+  getProjectName() {
+    const now = new Date();
+    const formattedTime =
+      '' + now.getFullYear() + now.getMonth() + now.getDate() + now.getHours() + now.getMinutes() + now.getSeconds();
+    const file = this.sessionStorageService.getItem('currentFile');
+
+    return formattedTime + '-' + file;
+  }
+
+  saveProjectToCloud() {
+    const requestBody = new CreateProjectRequest();
+
+    requestBody.projectName = this.projectName;
+    requestBody.userId = this.currentUser.id;
+
+    const file = this.sessionStorageService.getItem('currentFile');
+    requestBody.fileName = file !== null ? file : '';
+
+    this.projectService.createProject(requestBody).subscribe({
+      next: (response: BaseResponse<Project>) => {
+        this.matSnackBar.open(response.data.name + ' saved successfully!', 'OK', { duration: 2000 });
+      },
+      error: (error) => {
+        console.log(error);
+      },
+    });
   }
 }

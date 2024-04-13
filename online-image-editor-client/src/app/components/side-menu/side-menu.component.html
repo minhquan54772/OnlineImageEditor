@@ -31,6 +31,21 @@
         <div class="category-item__label">Adjust</div>
       </button>
     </li>
+    <li class="nav-item category-item" role="presentation" *ngIf="isFileUploaded && currentUser.id">
+      <button
+        class="nav-link"
+        id="save-tab"
+        data-bs-toggle="tab"
+        data-bs-target="#save"
+        type="button"
+        role="tab"
+        aria-controls="save"
+        aria-selected="false"
+      >
+        <fa-icon [icon]="saveProjectIcon" [size]="'xl'" class="category-item__icon"></fa-icon>
+        <div class="category-item__label">Save</div>
+      </button>
+    </li>
   </ul>
 
   <!-- Tab panes -->
@@ -65,5 +80,29 @@
       </div>
     </div>
     <div class="tab-pane" id="adjust" role="tabpanel" aria-labelledby="adjust-tab">adjust</div>
+    <div class="tab-pane" id="save" role="tabpanel" aria-labelledby="save-tab">
+      <div class="left-menu__save-project__container">
+        <div class="mb-3">
+          <label for="projectName" class="form-label left-menu__save-project__input-label">Project Name</label>
+          <input
+            #projectNameInput
+            type="text"
+            class="form-control"
+            [ngClass]="{ 'left-menu__save-project__input-error': !projectNameInput.value }"
+            name="projectName"
+            id="projectName"
+            aria-describedby="helpId"
+            [(ngModel)]="projectName"
+          />
+          <small *ngIf="!projectNameInput.value" id="helpId" class="form-text text-danger">
+            Project name is mandatory
+          </small>
+        </div>
+
+        <div class="d-grid gap-2">
+          <button type="button" class="btn btn-primary" (click)="saveProjectToCloud()">Save to cloud</button>
+        </div>
+      </div>
+    </div>
   </div>
 </div>
