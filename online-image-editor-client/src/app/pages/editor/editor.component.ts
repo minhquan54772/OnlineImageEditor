@@ -1,17 +1,7 @@
-import {
-  AfterContentInit,
-  AfterViewInit,
-  Component,
-  ElementRef,
-  OnChanges,
-  OnDestroy,
-  OnInit,
-  SimpleChanges,
-  ViewChild,
-} from '@angular/core';
-import { AppStateService } from '../../services/app-state.service';
-import { Router } from '@angular/router';
+import { AfterViewInit, Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { faMinus, faPlus } from '@fortawesome/free-solid-svg-icons';
 import { Project } from '../../models/project.model';
+import { AppStateService } from '../../services/app-state.service';
 import { ProjectService } from '../../services/project.service';
 import { SessionStorageService } from '../../services/session-storage.service';
 
@@ -29,6 +19,9 @@ export class EditorComponent implements OnInit, AfterViewInit, OnDestroy {
   workingImage = new Image();
 
   project: Project | undefined;
+
+  zoomInIcon = faPlus;
+  zoomOutIcon = faMinus;
 
   @ViewChild('imageContainer') imageContainer!: ElementRef;
 
@@ -99,5 +92,24 @@ export class EditorComponent implements OnInit, AfterViewInit, OnDestroy {
 
   calculateDiagonal(width: number, height: number): number {
     return Math.sqrt(width * width + height * height);
+  }
+
+  zoomOut() {
+    if (this.zoomRatio <= 25) {
+      return;
+    } else {
+      this.zoomRatio = this.zoomRatio - 4;
+      this.imageContainer.nativeElement.width = this.workingImage.width * (this.zoomRatio / 100);
+      this.imageContainer.nativeElement.height = this.workingImage.height * (this.zoomRatio / 100);
+    }
+  }
+  zoomIn() {
+    if (this.zoomRatio >= 200) {
+      return;
+    } else {
+      this.zoomRatio = this.zoomRatio + 4;
+      this.imageContainer.nativeElement.width = this.workingImage.width * (this.zoomRatio / 100);
+      this.imageContainer.nativeElement.height = this.workingImage.height * (this.zoomRatio / 100);
+    }
   }
 }
