@@ -1,0 +1,13 @@
+<div class="projects__container">
+  <div class="projects__page-label">My Projects</div>
+  <div class="projects__list-container">
+    <ng-container *ngFor="let project of currentUser.projectList">
+      <div class="card projects__item" (click)="openProject(project)">
+        <img class="card-img-top projects__item__thumbnail" [src]="project.thumbnail" alt="{{ project.name }}" />
+        <div class="card-body">
+          <h4 class="card-title ellipsis">{{ project.name }}</h4>
+        </div>
+      </div>
+    </ng-container>
+  </div>
+</div>

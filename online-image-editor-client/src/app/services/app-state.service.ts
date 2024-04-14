@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Subject } from 'rxjs';
+import { Project } from '../models/project.model';
 
 @Injectable({
   providedIn: 'root',
@@ -33,5 +34,12 @@ export class AppStateService {
 
   public userPurchasedVip() {
     this._vipPurchased.next();
+  }
+
+  private _projectOpen = new Subject<Project>();
+  _projectOpen$ = this._projectOpen.asObservable();
+
+  public openProject(project: Project) {
+    this._projectOpen.next(project);
   }
 }

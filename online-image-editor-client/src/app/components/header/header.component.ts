@@ -103,7 +103,7 @@ export class HeaderComponent implements OnInit {
     });
   }
   onNavToProjects() {
-    throw new Error('Method not implemented.');
+    this.router.navigate(['/my-projects']);
   }
   onNavToAccount() {
     const navigationExtras: NavigationExtras = {

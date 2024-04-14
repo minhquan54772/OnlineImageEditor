@@ -29,7 +29,7 @@ export class SideMenuComponent implements OnInit {
   adjustIcon = faSliders;
   saveProjectIcon = faCloud;
 
-  projectName: string = '';
+  project: Project = new Project();
 
   constructor(
     private imageFilterService: ImageFilterService,
@@ -43,7 +43,14 @@ export class SideMenuComponent implements OnInit {
   ngOnInit(): void {
     this.getCurrentUser();
     this.getAllFilters();
-    this.projectName = this.getProjectName();
+    this.getCurrentProject();
+
+    this.appStateService._uploadCompleted$.subscribe({
+      next: (fileData: string) => {
+        this.isFileUploaded = true;
+        this.project.name = this.getProjectName();
+      },
+    });
   }
 
   getCurrentUser() {
@@ -57,6 +64,13 @@ export class SideMenuComponent implements OnInit {
           console.log(error);
         },
       });
+    }
+  }
+
+  getCurrentProject() {
+    const project = this.projectService.getCurrentProjectFromSessionStorage();
+    if (project !== null) {
+      this.project = project;
     }
   }
 
@@ -125,7 +139,7 @@ export class SideMenuComponent implements OnInit {
   saveProjectToCloud() {
     const requestBody = new CreateProjectRequest();
 
-    requestBody.projectName = this.projectName;
+    requestBody.projectName = this.project.name;
     requestBody.userId = this.currentUser.id;
 
     const file = this.sessionStorageService.getItem('currentFile');

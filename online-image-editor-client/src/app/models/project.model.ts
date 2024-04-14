@@ -3,4 +3,5 @@ export class Project {
   name!: string;
   resultImage!: string;
   originalImage!: string;
+  thumbnail!: string;
 }
