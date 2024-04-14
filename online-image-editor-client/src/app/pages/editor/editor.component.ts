@@ -1,12 +1,26 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import {
+  AfterContentInit,
+  AfterViewInit,
+  Component,
+  ElementRef,
+  OnChanges,
+  OnDestroy,
+  OnInit,
+  SimpleChanges,
+  ViewChild,
+} from '@angular/core';
 import { AppStateService } from '../../services/app-state.service';
+import { Router } from '@angular/router';
+import { Project } from '../../models/project.model';
+import { ProjectService } from '../../services/project.service';
+import { SessionStorageService } from '../../services/session-storage.service';
 
 @Component({
   selector: 'app-editor',
   templateUrl: './editor.component.html',
   styleUrl: './editor.component.scss',
 })
-export class EditorComponent implements OnInit {
+export class EditorComponent implements OnInit, AfterViewInit, OnDestroy {
   file!: File;
 
   isFileUploaded: boolean = false;
@@ -14,23 +28,17 @@ export class EditorComponent implements OnInit {
   zoomRatio: number = 0;
   workingImage = new Image();
 
+  project: Project | undefined;
+
   @ViewChild('imageContainer') imageContainer!: ElementRef;
 
-  constructor(private appStateService: AppStateService) {}
+  constructor(
+    private appStateService: AppStateService,
+    private sessionStorageService: SessionStorageService,
+    private projectService: ProjectService
+  ) {}
 
   ngOnInit(): void {
-    // this.appStateService._uploadCompleted$.subscribe({
-    //   next: (selectedFile: File) => {
-    //     this.file = selectedFile;
-    //     const url = URL.createObjectURL(this.file);
-    //     const image = new Image();
-    //     image.src = url;
-    //     image.onload = () => {
-    //       this.drawImage(image);
-    //     };
-    //   },
-    // });
-
     this.appStateService._uploadCompleted$.subscribe({
       next: (fileData: string) => {
         this.isFileUploaded = true;
@@ -43,6 +51,27 @@ export class EditorComponent implements OnInit {
         this.drawImage(fileData);
       },
     });
+
+    this.getCurrentProject();
+  }
+
+  ngAfterViewInit(): void {
+    if (this.project) {
+      this.isFileUploaded = true;
+      this.drawImage(this.project.thumbnail);
+    }
+  }
+
+  ngOnDestroy(): void {
+    this.project = undefined;
+    this.sessionStorageService.removeItem('currentProject');
+  }
+
+  getCurrentProject() {
+    const project = this.projectService.getCurrentProjectFromSessionStorage();
+    if (project !== null) {
+      this.project = project;
+    }
   }
 
   drawImage(imageData: string) {
@@ -51,8 +80,6 @@ export class EditorComponent implements OnInit {
     this.workingImage.src = imageData;
 
     this.workingImage.onload = () => {
-      console.log(this.imageContainer);
-
       this.imageSize = this.workingImage.width + 'x' + this.workingImage.height;
       this.zoomRatio = this.calculateZoomRatio(
         this.imageContainer.nativeElement.width,
@@ -61,12 +88,6 @@ export class EditorComponent implements OnInit {
         this.workingImage.height
       );
     };
-
-    // const canvasContext = this.imageContainer.nativeElement.getContext('2d');
-    // this.imageContainer.nativeElement.width = image.width;
-    // this.imageContainer.nativeElement.height = image.height;
-    // canvasContext?.moveTo(0, 0);
-    // canvasContext?.drawImage(image, image.width, image.height);
   }
 
   calculateZoomRatio(originalWidth: number, originalHeight: number, actualWidth: number, actualHeight: number): number {
