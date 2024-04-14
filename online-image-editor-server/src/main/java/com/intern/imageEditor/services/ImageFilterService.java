@@ -30,7 +30,7 @@ public class ImageFilterService {
         // Converting the image to grey scale
         Imgproc.cvtColor(src, dst, Imgproc.COLOR_RGB2GRAY);
         // Writing the image
-        Path modifiedFilePath = storageService.load("modifed-" + filename);
+        Path modifiedFilePath = storageService.load("modified-" + filename);
         Imgcodecs.imwrite(modifiedFilePath.toString(), dst);
 
         byte[] bytes = Files.readAllBytes(modifiedFilePath);
@@ -52,7 +52,7 @@ public class ImageFilterService {
         Core.transform(src, dst, sepiaKernel);
 
         // Writing the image
-        Path modifiedFilePath = storageService.load("modifed-" + filename);
+        Path modifiedFilePath = storageService.load("modified-" + filename);
         Imgcodecs.imwrite(modifiedFilePath.toString(), dst);
 
         byte[] bytes = Files.readAllBytes(modifiedFilePath);
@@ -70,7 +70,7 @@ public class ImageFilterService {
         Photo.pencilSketch(src, dst1, dst2);
 
         // Writing the image
-        Path modifiedFilePath = storageService.load("modifed-" + filename);
+        Path modifiedFilePath = storageService.load("modified-" + filename);
         Imgcodecs.imwrite(modifiedFilePath.toString(), dst1);
 
         byte[] bytes = Files.readAllBytes(modifiedFilePath);
@@ -108,7 +108,7 @@ public class ImageFilterService {
         Core.merge(channels, dst);
 
         // Writing the image
-        Path modifiedFilePath = storageService.load("modifed-" + filename);
+        Path modifiedFilePath = storageService.load("modified-" + filename);
         Imgcodecs.imwrite(modifiedFilePath.toString(), dst);
 
         byte[] bytes = Files.readAllBytes(modifiedFilePath);
@@ -126,7 +126,7 @@ public class ImageFilterService {
         Photo.detailEnhance(src, dst);
 
         // Writing the image
-        Path modifiedFilePath = storageService.load("modifed-" + filename);
+        Path modifiedFilePath = storageService.load("modified-" + filename);
         Imgcodecs.imwrite(modifiedFilePath.toString(), dst);
 
         byte[] bytes = Files.readAllBytes(modifiedFilePath);
@@ -142,7 +142,7 @@ public class ImageFilterService {
         Core.bitwise_not(src, dst);
 
         // Writing the image
-        Path modifiedFilePath = storageService.load("modifed-" + filename);
+        Path modifiedFilePath = storageService.load("modified-" + filename);
         Imgcodecs.imwrite(modifiedFilePath.toString(), dst);
 
         byte[] bytes = Files.readAllBytes(modifiedFilePath);

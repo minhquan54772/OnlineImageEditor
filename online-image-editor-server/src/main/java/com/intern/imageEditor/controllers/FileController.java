@@ -10,6 +10,8 @@ import org.springframework.web.multipart.MultipartFile;
 import com.intern.imageEditor.payload.response.BaseResponse;
 
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 
 
 @RestController
@@ -18,6 +20,7 @@ import java.io.IOException;
 @CrossOrigin
 public class FileController {
     private final StorageService storageService;
+
     @Autowired
     public FileController(StorageService storageService) {
         this.storageService = storageService;
@@ -30,5 +33,19 @@ public class FileController {
         return ResponseEntity.ok().body(new BaseResponse<>(base64Data, true));
     }
 
+    @GetMapping("")
+    public ResponseEntity<BaseResponse<String>> getFileDateBase64(@RequestParam String fileName) {
+        Path imagePath;
+        try {
+            imagePath = storageService.load(fileName);
+            byte[] bytes = Files.readAllBytes(imagePath);
+            String mimeType = Files.probeContentType(imagePath);
+            String base64 = FileUtil.bytesToBase64(bytes, mimeType);
+            return ResponseEntity.ok().body(new BaseResponse<>(base64, true));
+
+        } catch (Exception e) {
+            return ResponseEntity.internalServerError().body(new BaseResponse<>(null, false, e.getMessage()));
+        }
+    }
 
 }

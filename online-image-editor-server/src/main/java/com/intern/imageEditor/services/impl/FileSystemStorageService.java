@@ -43,6 +43,9 @@ public class FileSystemStorageService implements StorageService {
             Path destinationFile = this.rootLocation.resolve(
                             Paths.get(file.getOriginalFilename()))
                     .normalize().toAbsolutePath();
+            Path resultFile = this.rootLocation.resolve(
+                            Paths.get("modified-" + file.getOriginalFilename()))
+                    .normalize().toAbsolutePath();
             if (!destinationFile.getParent().equals(this.rootLocation.toAbsolutePath())) {
                 // This is a security check
                 throw new StorageException(
@@ -50,6 +53,8 @@ public class FileSystemStorageService implements StorageService {
             }
             try (InputStream inputStream = file.getInputStream()) {
                 Files.copy(inputStream, destinationFile,
+                        StandardCopyOption.REPLACE_EXISTING);
+                Files.copy(destinationFile, resultFile,
                         StandardCopyOption.REPLACE_EXISTING);
             }
         }
