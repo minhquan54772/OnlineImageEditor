@@ -7,17 +7,19 @@
     <div class="image-container" [ngClass]="{ hidden: !isFileUploaded }">
       <!-- Display image here -->
       <!-- <canvas #imageContainer> </canvas> -->
-      <img alt="IMG" class="image-container__image" #imageContainer />
+      <div class="image-container__wrapper">
+        <img alt="IMG" class="image-container__image" #imageContainer />
+      </div>
       <div class="image-container__image-size-container">
         <div class="image-container__image-size">{{ imageSize }}</div>
         <div class="image-container__divider"></div>
         <div class="image-container__zoom-ratio-control">
-          <div class="image-container__zoom-button">
-            <span class="material-symbols-outlined"> remove </span>
+          <div class="image-container__zoom-button" (click)="zoomOut()">
+            <fa-icon [icon]="zoomOutIcon" size="sm"></fa-icon>
           </div>
           <div class="image-container__zoom-ratio">{{ zoomRatio }}%</div>
-          <div class="image-container__zoom-button">
-            <span class="material-symbols-outlined"> add </span>
+          <div class="image-container__zoom-button" (click)="zoomIn()">
+            <fa-icon [icon]="zoomInIcon" size="sm"></fa-icon>
           </div>
         </div>
       </div>
